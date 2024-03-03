@@ -1,0 +1,15 @@
+.item{
+  display: flex;
+  flex-direction: row;
+  color: blue;
+  border: 1px solid gray;
+  border-radius: 16px;
+  box-shadow: 2px solid grey;
+  width:600px;
+  margin: 2px;
+}
+
+.header{
+ text-align: center;
+ font-weight: bold;
+}
