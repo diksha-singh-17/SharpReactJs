@@ -7,25 +7,25 @@ function App() {
     {
       amount: 350,
       title: "Shopping",
-      date: "2021-09-07",
+      date: new Date("2021-09-09"),
       location: "canada",
     },
     {
       amount: 2350,
       title: "Travel",
-      date: "2021-8-7",
+      date: new Date("2021-8-17"),
       location: "canada",
     },
     {
       amount: 7350,
       title: "Movies",
-      date: "2025-09-07",
+      date: new Date("2025-09-23"),
       location: "Mexico",
     },
     {
       amount: 1550,
       title: "Grocery",
-      date: "2021-04-07",
+      date: new Date("2021-04-12"),
       location: "Bristol",
     },
   ];
