@@ -29,8 +29,6 @@ const Expenses = () => {
   ];
   return (
     <div>
-      <h1 className="header">Expense Item!</h1>
-
       <Card>
         {expense.map((item, index) => {
           return (
