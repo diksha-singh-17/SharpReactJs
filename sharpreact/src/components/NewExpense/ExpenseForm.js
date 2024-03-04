@@ -1,3 +1,4 @@
+import { useState } from "react;";
 const ExpenseForm = () => {
   const obj = {
     title: "",
@@ -6,19 +7,26 @@ const ExpenseForm = () => {
   };
   const titleChangeHandler = (event) => {
     obj.title = event.target.value;
+    setEnteredtitle(event.target.value);
   };
 
   const amountChangeHandler = (e) => {
     obj.amount = e.target.value;
+    setEnteredAmount(e.target.value);
   };
 
   const dateChangeHandler = (e) => {
     obj.date = e.target.value;
+    setEnteredDate(e.target.value);
   };
   const formSubmitHandler = (e) => {
     e.preventDefault();
     console.log(obj);
   };
+
+  const [enteredTitle, setEnteredtitle] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState(0);
+  const [enteredDate, setEnteredDate] = useState();
   return (
     <form>
       <div>
