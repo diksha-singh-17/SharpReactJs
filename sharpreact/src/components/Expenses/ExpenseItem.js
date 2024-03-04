@@ -12,7 +12,7 @@ const ExpenseItem = (props) => {
     <div className="item">
       <ExpenseDate date={props.date} />
       <ExpenseDetails
-        title={title}
+        title={props.title}
         amount={props.amount}
         location={props.location}
       />

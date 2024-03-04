@@ -7,7 +7,7 @@ const ExpenseDetails = (props) => {
   return (
     <div>
       <h4>
-        {props.title}-{props.location}-${expense}
+        {props.title}-{props.location}-${props.amount}
         <button onClick={addHandler}>Add</button>
       </h4>
     </div>

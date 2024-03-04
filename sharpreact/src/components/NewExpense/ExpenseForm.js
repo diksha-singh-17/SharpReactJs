@@ -1,49 +1,67 @@
 import { useState } from "react";
-const ExpenseForm = () => {
-  const [userInput, setUserInput] = useState({
-    enteredTitle: "",
-    enteredAmount: "",
-    enteredDate: "",
-  });
+const ExpenseForm = (props) => {
+  // const [userInput, setUserInput] = useState({
+  //   enteredTitle: "",
+  //   enteredAmount: "",
+  //   enteredDate: "",
+  // });
+  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredDate, setEnteredDate] = useState("");
 
   const titleChangeHandler = (event) => {
-    setUserInput({
-      ...userInput,
-      enteredTitle: event.target.value,
-    });
+    setEnteredTitle(event.target.value);
   };
 
   const amountChangeHandler = (event) => {
-    setUserInput({
-      ...userInput,
-      enteredAmount: event.target.value,
-    });
+    setEnteredAmount(event.target.value);
   };
 
   const dateChangeHandler = (event) => {
-    setUserInput((prevState) => {
-      return { ...prevState, enteredDate: event.target.value };
-    });
+    // setUserInput((prevState) => {
+    //   return { ...prevState, enteredDate: event.target.value };
+    // });
+    setEnteredDate(event.target.value);
   };
   const formSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(userInput);
+    const userInputs = {
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: enteredDate,
+    };
+    props.onSaveExpenseData(userInputs);
+    console.log(userInputs);
+    setEnteredAmount("");
+    setEnteredTitle("");
+    setEnteredDate("");
   };
 
   return (
     <form onSubmit={formSubmitHandler}>
       <div>
         <label>Expense Title :</label>
-        <input type="text" onChange={titleChangeHandler}></input>
+        <input
+          type="text"
+          onChange={titleChangeHandler}
+          value={enteredTitle}
+        ></input>
       </div>
       <div>
         <label>Expense Amount :</label>
-        <input type="number" onChange={amountChangeHandler}></input>
+        <input
+          type="number"
+          onChange={amountChangeHandler}
+          value={enteredAmount}
+        ></input>
       </div>
       <div>
-        {" "}
         <label>Date :</label>
-        <input type="date" onChange={dateChangeHandler}></input>
+        <input
+          type="date"
+          onChange={dateChangeHandler}
+          value={enteredDate}
+        ></input>
       </div>
 
       <button type="submit">Submit</button>

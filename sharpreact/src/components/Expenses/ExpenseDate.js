@@ -1,5 +1,5 @@
 const ExpenseDate = (props) => {
-  const year = props.date.toLocaleString("en-US", { year: "numeric" });
+  const year = props.date.getFullYear();
   const month = props.date.toLocaleString("en-US", { month: "long" });
   const date = props.date.toLocaleDateString("en-us", { day: "2-digit" });
   return (
