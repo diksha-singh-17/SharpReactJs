@@ -20,7 +20,7 @@ const DUMMY_EXPENSES = [
   {
     amount: 7350,
     title: "Movies",
-    date: new Date(2025, 9, 23),
+    date: new Date(2024, 9, 23),
     location: "Mexico",
   },
   {
