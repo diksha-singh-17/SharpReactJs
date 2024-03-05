@@ -9,7 +9,7 @@ const ExpenseItem = (props) => {
     setTitle("updated");
   };
   return (
-    <div className="item">
+    <li className="item">
       <ExpenseDate date={props.date} />
       <ExpenseDetails
         title={props.title}
@@ -19,7 +19,7 @@ const ExpenseItem = (props) => {
       <button className="btn" onClick={clickHandler}>
         Delete Expense
       </button>
-    </div>
+    </li>
   );
 };
 export default ExpenseItem;
