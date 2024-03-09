@@ -5,14 +5,18 @@ import "./App.css";
 
 const App = () => {
   const [courseGoals, setCourseGoals] = useState([
-    { text: "Do all exercises!", id: "g1" },
-    { text: "Finish the course!", id: "g2" },
+    { text: "Do all exercises!", age: 23, id: "g1" },
+    { text: "Finish the course!", age: 98, id: "g2" },
   ]);
 
-  const addGoalHandler = (enteredText) => {
+  const addGoalHandler = (obj) => {
     setCourseGoals((prevGoals) => {
       const updatedGoals = [...prevGoals];
-      updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
+      updatedGoals.unshift({
+        text: obj.input,
+        age: obj.age,
+        id: Math.random().toString(),
+      });
       return updatedGoals;
     });
   };
