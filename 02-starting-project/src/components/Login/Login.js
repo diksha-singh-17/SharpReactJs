@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../store/AuthContext";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -37,38 +38,39 @@ const Login = (props) => {
     vale: "",
     isValid: false,
   });
-  // useEffect(() => {
-  // ***debouncing***
-  //   const identifier = setTimeout(() => {
-  //     console.log("useeffect");
-  //     setFormIsValid(
-  //       enteredEmail.value.includes("@") &&
-  //         enteredPassword.trim().length > 6 &&
-  //         enteredCollege.trim().length > 5
-  //     );
-  //   }, 500);
-  // **code cleanup**
-  //   return () => {
-  //     console.log("cleanup");
-  //     clearTimeout(identifier);
-  //   };
-  // }, [enteredEmail, enteredPassword, enteredCollege]);
+  const authCtx = useContext(AuthContext);
+  useEffect(() => {
+    // ***debouncing***
+    const identifier = setTimeout(() => {
+      console.log("useeffect");
+      setFormIsValid(
+        emailState.isValid &&
+          passwordState.isValid &&
+          enteredCollege.trim().length > 5
+      );
+    }, 500);
+    // **code cleanup**
+    return () => {
+      console.log("cleanup");
+      clearTimeout(identifier);
+    };
+  }, [emailState, passwordState, enteredCollege]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
-    setFormIsValid(
-      event.target.value.includes("@") &&
-        passwordState.isValid &&
-        enteredCollege.trim().length > 5
-    );
+    // setFormIsValid(
+    //   event.target.value.includes("@") &&
+    //     passwordState.isValid &&
+    //     enteredCollege.trim().length > 5
+    // );
   };
 
   const passwordChangeHandler = (event) => {
-    setFormIsValid(
-      emailState.isValid &&
-        passwordState.isValid &&
-        enteredCollege.trim().length > 5
-    );
+    // setFormIsValid(
+    //   emailState.isValid &&
+    //     passwordState.isValid &&
+    //     enteredCollege.trim().length > 5
+    // );
     dispatchPassword({ type: "USER_PASSWORD", val: event.target.value });
   };
 
@@ -89,7 +91,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
