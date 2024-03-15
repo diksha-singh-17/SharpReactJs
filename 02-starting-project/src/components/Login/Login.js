@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useReducer, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useContext,
+  useRef,
+} from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
@@ -17,9 +23,9 @@ const emailReducer = (state, action) => {
 
 const passwordReducer = (state, action) => {
   if (action.type === "USER_PASSWORD") {
-    return { value: action.val, isValid: action.val.trim().length > 7 };
+    return { value: action.val, isValid: action.val?.length > 7 };
   } else if (action.type === "PASSWORD_BLUR") {
-    return { value: state.value, isValid: state.value.trim().length > 7 };
+    return { value: state.value, isValid: state.value?.length > 7 };
   }
   return { value: "", isValid: false };
 };
@@ -40,14 +46,17 @@ const Login = (props) => {
     isValid: false,
   });
   const authCtx = useContext(AuthContext);
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
   useEffect(() => {
     // ***debouncing***
     const identifier = setTimeout(() => {
       console.log("useeffect");
       setFormIsValid(
-        emailState.isValid &&
-          passwordState.isValid &&
-          enteredCollege.trim().length > 5
+        emailIsValid && passwordIsValid && enteredCollege.trim().length > 5
       );
     }, 500);
     // **code cleanup**
@@ -55,7 +64,7 @@ const Login = (props) => {
       console.log("cleanup");
       clearTimeout(identifier);
     };
-  }, [emailState, passwordState, enteredCollege]);
+  }, [emailIsValid, passwordIsValid, enteredCollege]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
@@ -92,7 +101,13 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    authCtx.onLogin(emailState.value, passwordState.value);
+    if (formIsValid) {
+      authCtx.onLogin(emailState.value, passwordState.value);
+    } else if (!emailIsValid) {
+      emailInputRef.current.focus();
+    } else {
+      passwordInputRef.current.focus();
+    }
   };
 
   return (
@@ -102,6 +117,8 @@ const Login = (props) => {
           type="email"
           id="email"
           htmlFor="E-mail"
+          ref={emailInputRef}
+          isValid={emailIsValid}
           value={emailState.value}
           onChange={emailChangeHandler}
           onBlur={validateEmailHandler}
@@ -110,6 +127,8 @@ const Login = (props) => {
           type="password"
           id="password"
           htmlFor="Password"
+          isValid={passwordIsValid}
+          ref={passwordInputRef}
           value={passwordState.value}
           onChange={passwordChangeHandler}
           onBlur={validatePasswordHandler}
@@ -125,7 +144,7 @@ const Login = (props) => {
         />
 
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button type="submit" className={classes.btn}>
             Login
           </Button>
         </div>
