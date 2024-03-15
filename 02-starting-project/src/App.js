@@ -3,7 +3,7 @@ import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import MainHeader from "./components/MainHeader/MainHeader";
 import AuthContext from "./components/store/AuthContext";
-
+import Parent from "./components/LifeCycle/Parent";
 function App() {
   const authCtx = useContext(AuthContext);
   return (
@@ -13,6 +13,7 @@ function App() {
         {!authCtx.isLoggedIn && <Login />}
         {authCtx.isLoggedIn && <Home />}
       </main>
+      <Parent />
     </React.Fragment>
   );
 }
