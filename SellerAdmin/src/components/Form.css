@@ -1,0 +1,32 @@
+ul>li{
+  list-style-type: none;
+}
+
+.items__all>li{
+  padding: 2px;
+  margin:6px
+}
+.form__btn{
+  margin:10px;
+  background-color: darkcyan;
+  width:150px;
+  height:25px;
+  border:none;
+}
+.form{
+  background-color: darkslategrey;
+  color: white;
+  height:auto;
+  weight: 100px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding:6px;
+}
+.items__all{
+  background-color: slategrey;
+  weight: 100px;
+  height: auto;
+  /* border:2px solid black; */
+}
