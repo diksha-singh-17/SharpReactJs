@@ -1,3 +1,5 @@
+import Card from "../UI/Card";
+import MealItem from "./MealItem/MealItem";
 const DUMMY_MEALS = [
   {
     id: "m1",
@@ -9,7 +11,7 @@ const DUMMY_MEALS = [
     id: "m2",
     name: "Schnitzel",
     description: "A german specialty!",
-    price: 16.5,
+    price: 16.589,
   },
   {
     id: "m3",
@@ -26,10 +28,20 @@ const DUMMY_MEALS = [
 ];
 
 const AvailableMeals = () => {
-  const mealsList = DUMMY_MEALS.map((item) => <li>{item.name}</li>);
+  const mealsList = DUMMY_MEALS.map((item) => (
+    <MealItem
+      id={item.id}
+      name={item.name}
+      key={item.id}
+      desc={item.description}
+      price={item.price}
+    />
+  ));
   return (
     <section>
-      <ul>{mealsList}</ul>
+      <Card>
+        <ul>{mealsList}</ul>
+      </Card>
     </section>
   );
 };
