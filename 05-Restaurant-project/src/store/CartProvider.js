@@ -7,12 +7,25 @@ const CartProvider = (props) => {
   const addItemToCartHandler = (item) => {
     setItem([...items, item]);
   };
-  const deleteItemFromCartHandler = (id) => {};
+  const deleteItemFromCartHandler = (id) => {
+    // minus -1 quantity from the cart
+    let newItems = items.map((i) => {
+      if (i.id === id) {
+        return { ...i, quantity: i.quantity - 1 };
+      } else {
+        return i;
+      }
+    });
+    // remove completely if no more left in stock
+    newItems = newItems.filter((i) => i.quantity > 0);
+    setItem(newItems);
+  };
+
   const cartContext = {
     items: items,
     totalAmount: 0,
     addItem: addItemToCartHandler,
-    delteItem: deleteItemFromCartHandler,
+    deleteItem: deleteItemFromCartHandler,
   };
 
   return (

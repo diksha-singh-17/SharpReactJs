@@ -7,10 +7,16 @@ const Cart = (props) => {
   const cartCntx = useContext(CartContext);
   const hasItems = cartCntx.items.length > 0;
 
-  const cartItemRemoveHandler = (id) => {};
+  const cartItemRemoveHandler = (id) => {
+    cartCntx.deleteItem(id);
+  };
 
   const cartItemAddHandler = (item) => {};
 
+  const amount = cartCntx.items.reduce((currNum, item) => {
+    return (currNum + item.price) * item.quantity;
+  }, 0);
+  const fixedAmount = `$${amount.toFixed(2)}`;
   const cartItems = (
     <ul className={classes["cart-items"]}>
       {cartCntx.items.map((item) => (
@@ -25,10 +31,7 @@ const Cart = (props) => {
       ))}
     </ul>
   );
-  const amount = cartCntx.items.reduce((currNum, item) => {
-    return (currNum + item.price) * item.quantity;
-  }, 0);
-  const fixedAmount = `$${amount.toFixed(2)}`;
+
   return (
     <Modal onCloseCart={props.onCloseCart}>
       {cartItems}
