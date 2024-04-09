@@ -8,8 +8,6 @@ const CartProvider = (props) => {
     setItem([...items, item]);
   };
   const deleteItemFromCartHandler = (id) => {
-    console.log(items);
-
     setItem(items.filter((x) => x.id !== id));
   };
 

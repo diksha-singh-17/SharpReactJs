@@ -10,7 +10,6 @@ function App() {
   const itemsInModal = useContext(CartContext);
 
   const lengthModal = itemsInModal.items.length;
-  console.log(itemsInModal, "*******************", lengthModal);
   const showHandler = () => {
     setIsCartShown(true);
   };
