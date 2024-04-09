@@ -16,20 +16,22 @@ function App() {
   const hideHandler = () => {
     setIsCartShown(false);
   };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Student manager</h1>
+      <div className="App-header">
+        <h1>Student Manager</h1>
         <p>All Students:{lengthModal || 0}</p>
         <Button type="submit" className={classes.btn} onClick={showHandler}>
           AddNewUser
         </Button>
+
         <main>
           {isCartShown && <ListForm onCloseCart={hideHandler} />}
 
           <ListItem onCloseCart={showHandler} />
         </main>
-      </header>
+      </div>
     </div>
   );
 }
