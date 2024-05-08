@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
@@ -7,44 +7,41 @@ function App() {
   const [parsedData, setParsedData] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  let timeForFetching;
-  const fetchMoviehandler = async () => {
+
+  const fetchMoviehandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
-    timeForFetching = setInterval(async () => {
-      try {
-        const fetcheddata = await fetch("https://swapi.dev/api/films/");
-        if (!fetcheddata.ok) {
-          throw new Error("Something went wrong ....Retrying");
-        }
-        const data = await fetcheddata.json();
-
-        const transformedMovies = data.results.map((movieData) => {
-          return {
-            id: movieData.id,
-            title: movieData.title,
-            openingText: movieData.opening_crawl,
-            releaseDate: movieData.release_date,
-          };
-        });
-        setParsedData(transformedMovies);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error.message);
+    try {
+      const fetcheddata = await fetch("https://swapi.dev/api/films/");
+      if (!fetcheddata.ok) {
+        throw new Error("Something went wrong ....Retrying");
       }
-    }, 5000);
-  };
+      const data = await fetcheddata.json();
 
-  const clearMoviehandler = () => {
-    clearInterval(timeForFetching);
-    console.log("cancelling");
-  };
+      const transformedMovies = data.results.map((movieData) => {
+        return {
+          id: movieData.id,
+          title: movieData.title,
+          openingText: movieData.opening_crawl,
+          releaseDate: movieData.release_date,
+        };
+      });
+      setParsedData(transformedMovies);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchMoviehandler();
+  }, [fetchMoviehandler]);
+
   return (
     <React.Fragment>
       <section>
         <button onClick={fetchMoviehandler}>Fetch Movies</button>
-        <button onClick={clearMoviehandler}>Clear Movies</button>
       </section>
       <section>
         {!isloading && <MoviesList movies={parsedData} />}
