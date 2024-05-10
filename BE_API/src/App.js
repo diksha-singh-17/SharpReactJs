@@ -30,7 +30,7 @@ function App() {
           releaseDate: data[key].releaseDate,
         });
       }
-      console.log(loadedMovies);
+
       setParsedData(loadedMovies);
 
       setIsLoading(false);
