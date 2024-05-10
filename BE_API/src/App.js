@@ -14,21 +14,25 @@ function App() {
     setError(null);
 
     try {
-      const fetcheddata = await fetch("https://swapi.dev/api/films/");
+      const fetcheddata = await fetch(
+        "https://sharpener-project-d2242-default-rtdb.firebaseio.com/movies.json"
+      );
       if (!fetcheddata.ok) {
         throw new Error("Something went wrong ....Retrying");
       }
       const data = await fetcheddata.json();
+      const loadedMovies = [];
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].Title,
+          openingText: data[key].Text,
+          releaseDate: data[key].releaseDate,
+        });
+      }
+      console.log(loadedMovies);
+      setParsedData(loadedMovies);
 
-      const transformedMovies = data.results.map((movieData) => {
-        return {
-          id: movieData.id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date,
-        };
-      });
-      setParsedData(transformedMovies);
       setIsLoading(false);
     } catch (error) {
       setError(error.message);
@@ -39,11 +43,26 @@ function App() {
     fetchMoviehandler();
   }, [fetchMoviehandler]);
 
+  const handleDataFromChild = async (movie) => {
+    const response = await fetch(
+      "https://sharpener-project-d2242-default-rtdb.firebaseio.com/movies.json",
+      {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    // console.log("Parent received Data", data);
+  };
+
   return (
     <React.Fragment>
       <section>
-        {" "}
-        <FormComponent />
+        <FormComponent sendDataToParent={handleDataFromChild} />
       </section>
       <section>
         <button onClick={fetchMoviehandler}>Fetch Movies</button>

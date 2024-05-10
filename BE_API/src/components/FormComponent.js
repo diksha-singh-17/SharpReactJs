@@ -3,18 +3,20 @@ import React, { useRef } from "react";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
-const FormComponent = () => {
+const FormComponent = ({ sendDataToParent }) => {
   const title = useRef();
   const text = useRef();
-  const releasedate = useRef();
+  const releaseDate = useRef();
 
-  const addMoviesHandler = () => {
+  const addMoviesHandler = (e) => {
+    e.preventDefault();
     const newMoviesObj = {
       Title: title.current.value,
       Text: text.current.value,
-      releaseDate: releasedate.current.value,
+      releaseDate: releaseDate.current.value,
     };
-    console.log(newMoviesObj);
+
+    sendDataToParent(newMoviesObj);
   };
   return (
     <div>
@@ -41,7 +43,7 @@ const FormComponent = () => {
           Release Date
         </InputGroup.Text>
         <Form.Control
-          ref={releasedate}
+          ref={releaseDate}
           aria-label="Small"
           aria-describedby="inputGroup-sizing-sm"
         />
