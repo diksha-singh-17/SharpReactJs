@@ -18,38 +18,52 @@ const AuthForm = () => {
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     // optional: add Authentication
+    let url;
     if (isLogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
     } else {
-      fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((res) => {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
+    }
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        setIsLoading(false);
         if (res.ok) {
+          return res.json();
         } else {
-          res.json().then((data) => {
+          return res.json().then((data) => {
             console.log(data.error.message);
-            alert(data.error.message);
+            let errorMessage = "Authentication Failed.";
+            // if (data && data.error && data.error.message) {
+            //   errorMessage = data.error.message;
+            // }
+            throw new Error(errorMessage);
           });
         }
+      })
+      .then((data) => {
+        console.log(data, data.idToken);
+      })
+      .catch((error) => {
+        alert(error.message);
       });
-    }
-    setIsLoading(false);
   };
 
   return (
     <section className={classes.auth}>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-      <form onClick={SubmitHandler}>
+      <form onSubmit={SubmitHandler}>
         <div className={classes.control}>
           <label htmlFor="email">Your Email</label>
           <input type="email" id="email" required ref={emailRef} />
@@ -58,10 +72,16 @@ const AuthForm = () => {
           <label htmlFor="password">Your Password</label>
           <input type="password" id="password" required ref={passwordRef} />
         </div>
-        <div className={classes.loaderText}>
-          {isLoading && <p>Sending request...</p>}
-        </div>
+
         <div className={classes.actions}>
+          {/* {!isLoading && ( */}
+          <button>{isLogin ? "Login" : "Create Account"}</button>
+          {/* )} */}
+
+          {isLoading && (
+            <p className={classes.loaderText}>Sending request...</p>
+          )}
+
           <button
             type="button"
             className={classes.toggle}
