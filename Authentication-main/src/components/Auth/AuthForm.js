@@ -1,13 +1,14 @@
 import { useState, useRef, useContext } from "react";
 import AuthContext from "../../store/AuthContext";
 import classes from "./AuthForm.module.css";
-
+import { useHistory } from "react-router-dom";
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
   const authCntxt = useContext(AuthContext);
+  const history = useHistory();
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -22,9 +23,10 @@ const AuthForm = () => {
     let url;
     if (isLogin) {
       url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
     } else {
-      url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
     }
     fetch(url, {
       method: "POST",
@@ -55,6 +57,7 @@ const AuthForm = () => {
       .then((data) => {
         console.log(data, data.idToken);
         authCntxt.login(data.idToken);
+        history.replace("./");
       })
       .catch((error) => {
         alert(error.message);
