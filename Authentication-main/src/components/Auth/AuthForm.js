@@ -55,7 +55,7 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        console.log(data, data.idToken);
+        console.log(data);
         authCntxt.login(data.idToken);
         history.replace("./");
       })
