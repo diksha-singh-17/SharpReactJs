@@ -58,6 +58,9 @@ const AuthForm = () => {
         console.log(data);
         authCntxt.login(data.idToken);
         history.replace("./");
+        setTimeout(() => {
+          authCntxt.logOut();
+        }, 50000);
       })
       .catch((error) => {
         alert(error.message);
