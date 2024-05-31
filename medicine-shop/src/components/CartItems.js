@@ -1,17 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CartContext from "../store/CartContext";
 
 const CartItems = () => {
   const [show, setShow] = useState(false);
-
   const cartCntxt = useContext(CartContext);
   const length = cartCntxt.items.length;
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   return (
     <div>
+      {console.log(cartCntxt.items)}
       <Button variant="primary" onClick={handleShow}>
         Cart
       </Button>

@@ -15,6 +15,7 @@ function App() {
   const priceRef = useRef();
   const quantityRef = useRef();
   const authCntxt = useContext(AuthContext);
+  const [products, setProducts] = useState([]);
 
   const addItemsHandler = (e) => {
     e.preventDefault();
@@ -23,9 +24,19 @@ function App() {
       name: inputRef.current.value,
       desc: descRef.current.value,
       price: priceRef.current.value,
-      quantity: quantityRef.current.value,
+      quantity: Number(quantityRef.current.value),
     });
     console.log(authCntxt);
+
+    fetch(
+      "https://crudcrud.com/api/774032bf34ee44339b07663262dcd6f6/medicine-shop"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(data);
+        console.log("data from get", data);
+      })
+      .catch((err) => console.log(err.message));
   };
 
   return (
@@ -73,7 +84,7 @@ function App() {
             Add Product
           </Button>
         </div>
-        <ShowProducts />
+        <ShowProducts products={products} />
       </div>
     </CartContextProvider>
   );
