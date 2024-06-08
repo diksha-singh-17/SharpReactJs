@@ -41,15 +41,21 @@ const Body = () => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        return res.json();
+      })
       .then((data) => {
-        localStorage.setItem("idToken", data.idToken);
-        const idToken = data.idToken;
+        if (!data.error) localStorage.setItem("idToken", data.idToken);
         if (data && !data.error && !data.error?.message) {
           navigate("/browse");
         }
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        setError(error.message);
+      });
   };
   return (
     <div>

@@ -24,7 +24,6 @@ const Profile = () => {
       .then((res) => res.json())
       .then((data) => {
         if (isApiSubscribed) {
-          console.log(data);
           setDisplayName(data?.users[0]?.displayName);
           setPhotoUrl(data?.users[0]?.photoUrl);
         }
@@ -76,14 +75,14 @@ const Profile = () => {
               type="text"
               placeholder="full name"
               className="m-4 p-2 rounded-lg"
-              value={displayName || " "}
+              defaultValue={displayName || ""}
               ref={name}
             />
             <input
               type="text"
               placeholder="profile photo url"
               className="m-4 p-2 rounded-lg"
-              value={photourl || ""}
+              defaultValue={photourl || ""}
               ref={photoUrl}
             />
             <button
