@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { API_KEY } from "../utils/constants";
+import LogOut from "./LogOut";
 
 const Profile = () => {
   const [displayName, setDisplayName] = useState();
@@ -62,9 +63,15 @@ const Profile = () => {
 
   return (
     <div>
-      <h1 className="bg-gradient-to-r from-blue-100 p-4 font-bold flex">
-        Winner never Quit, Quitters never win!!
-      </h1>
+      <div className="flex justify-between">
+        <h1 className="bg-gradient-to-r from-blue-100 p-4 font-bold ">
+          Winner never Quit, Quitters never win!!
+        </h1>
+        <div>
+          <LogOut />
+        </div>
+      </div>
+
       <div>
         <h2 className="font-semibold m-4 p-2 text-blue-500 text-2xl">
           Contact Details
