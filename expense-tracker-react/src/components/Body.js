@@ -43,6 +43,7 @@ const Body = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        localStorage.setItem("idToken", data.idToken);
         const idToken = data.idToken;
         if (data && !data.error && !data.error?.message) {
           navigate("/browse");
