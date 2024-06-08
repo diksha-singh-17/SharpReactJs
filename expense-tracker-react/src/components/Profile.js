@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { API_KEY } from "../utils/constants";
 
 const Profile = () => {
   const [displayName, setDisplayName] = useState();
@@ -9,7 +10,8 @@ const Profile = () => {
 
   useEffect(() => {
     let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+      API_KEY;
     let isApiSubscribed = true;
 
     fetch(url, {
@@ -37,7 +39,8 @@ const Profile = () => {
 
   const updateProfileHandler = () => {
     let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
+      API_KEY;
     fetch(url, {
       method: "POST",
       body: JSON.stringify({

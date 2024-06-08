@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { validate } from "../utils/validate";
 import { useNavigate } from "react-router-dom";
+import { API_KEY } from "../utils/constants";
 
 const Body = () => {
   const [error, setError] = useState(null);
@@ -25,10 +26,12 @@ const Body = () => {
     let url;
     if (!isLogin) {
       url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" +
+        API_KEY;
     } else {
       url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+        API_KEY;
     }
     fetch(url, {
       method: "POST",
