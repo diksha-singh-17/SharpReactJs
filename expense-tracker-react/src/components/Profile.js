@@ -1,11 +1,42 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 const Profile = () => {
+  const [displayName, setDisplayName] = useState();
+  const [photourl, setPhotoUrl] = useState();
   const name = useRef();
   const photoUrl = useRef();
+  const idToken = localStorage.getItem("idToken");
+
+  useEffect(() => {
+    let url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
+    let isApiSubscribed = true;
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        idToken: idToken,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (isApiSubscribed) {
+          console.log(data);
+          setDisplayName(data?.users[0]?.displayName);
+          setPhotoUrl(data?.users[0]?.photoUrl);
+        }
+      })
+      .catch((err) => console.log(err));
+
+    return () => {
+      isApiSubscribed = false;
+    };
+  }, []);
 
   const updateProfileHandler = () => {
-    const idToken = localStorage.getItem("idToken");
     let url =
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I";
     fetch(url, {
@@ -45,12 +76,14 @@ const Profile = () => {
               type="text"
               placeholder="full name"
               className="m-4 p-2 rounded-lg"
+              value={displayName || " "}
               ref={name}
             />
             <input
               type="text"
               placeholder="profile photo url"
               className="m-4 p-2 rounded-lg"
+              value={photourl || ""}
               ref={photoUrl}
             />
             <button
