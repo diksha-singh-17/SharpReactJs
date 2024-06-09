@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { API_KEY } from "../utils/constants";
 import LogOut from "./LogOut";
+import Expenses from "./Expenses";
 
 const Browse = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const Browse = () => {
           Verify Email
         </button>
       </div>
+      <Expenses />
     </>
   );
 };
