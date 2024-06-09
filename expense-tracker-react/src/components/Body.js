@@ -60,6 +60,11 @@ const Body = () => {
         setError(error.message);
       });
   };
+
+  const handleForgotPassword = () => {
+    navigate("/forgot-password");
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-slate-700 hover:text-slate-400 bg-gradient-to-r from-slate-500 p-4">
@@ -91,6 +96,12 @@ const Body = () => {
             />
           )}
           <p className="text-red-500 font-bold">{error}</p>
+          <p
+            className="text-slate-500 font-bold hover:text-slate-400 cursor-pointer"
+            onClick={handleForgotPassword}
+          >
+            Forgot Password?
+          </p>
           <div>
             <button
               className="bg-slate-600 hover:bg-slate-400 rounded-md text-white p-2 m-4 font-bold"
