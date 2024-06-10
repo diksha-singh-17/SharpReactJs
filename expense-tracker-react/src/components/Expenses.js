@@ -2,40 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { DATABASE_URL } from "../utils/constants";
 
 const Expenses = () => {
-  const [expenseData, setExpenseData] = useState();
   const amount = useRef(null);
   const desc = useRef(null);
   const category = useRef(null);
+  const [expenseData, setExpenseData] = useState();
+
   let url = DATABASE_URL + "expenses.json";
-
-  const handleExpensesFormData = () => {
-    console.log(desc.current.value, category.current.value);
-
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        amount: amount.current.value,
-        desc: desc.current.value,
-        category: category.current.value,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setExpenseData(data);
-        if (data.error) {
-          throw new Error(data.error.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   useEffect(() => {
     fetch(url)
@@ -61,6 +33,68 @@ const Expenses = () => {
       });
   }, []);
 
+  const handleExpensesFormData = () => {
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        amount: amount.current.value,
+        desc: desc.current.value,
+        category: category.current.value,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        const filteredData = [];
+        for (let key in data) {
+          filteredData.unshift({
+            ...data[key],
+            id: key,
+          });
+        }
+        setExpenseData(filteredData);
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const deleteExpensesHandler = (id) => {
+    console.log(id);
+    const deleteURL =
+      "https://nice-theater-338718-default-rtdb.firebaseio.com/expenses/" +
+      id +
+      ".json";
+    fetch(deleteURL, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.info("Expense successfuly deleted");
+        setExpenseData(data);
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  console.log(expenseData);
+  const editExpenseHandler = (id) => {
+    console.log(id);
+  };
+
   return (
     <div>
       <div>
@@ -68,6 +102,7 @@ const Expenses = () => {
           Daily Expenses
         </span>
       </div>
+
       <div className="flex justify-center m-4">
         <form
           onSubmit={(e) => e.preventDefault()}
@@ -106,21 +141,31 @@ const Expenses = () => {
           </div>
         </form>
       </div>
+
       <div>
-        {expenseData?.map((expense) => {
-          return (
-            <div className="flex justify-center">
-              <ul
-                key={expense.id}
-                className="flex font-bold text-xl text-slate-800  m-4 bg-gradient-to-r from-slate-600"
-              >
-                <li className="p-2 m-2">{expense.amount}</li>
-                <li className="p-2 m-2">{expense.desc}</li>
-                <li className="p-2 m-2">{expense.category}</li>
-              </ul>
-            </div>
-          );
-        })}
+        <ul className="text-xl text-slate-800  m-4 bg-gradient-to-r from-slate-600">
+          {expenseData?.map((expense) => {
+            return (
+              <React.Fragment>
+                <li className="p-2 m-2 font-semibold" key={expense.id}>
+                  {expense.amount} {expense.desc} {expense.category}
+                  <button
+                    className="p-2 m-2 bg-slate-800 text-white rounded-lg"
+                    onClick={() => editExpenseHandler(expense.id)}
+                  >
+                    Edit Expense
+                  </button>
+                  <button
+                    className="p-2 m-2 bg-red-600 text-white rounded-lg"
+                    onClick={() => deleteExpensesHandler(expense.id)}
+                  >
+                    Delete Expense
+                  </button>
+                </li>
+              </React.Fragment>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
