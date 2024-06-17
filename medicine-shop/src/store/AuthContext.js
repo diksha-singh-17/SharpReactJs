@@ -13,7 +13,7 @@ export const AuthContextProvider = (props) => {
     setItems([...items, item]);
 
     fetch(
-      "https://crudcrud.com/api/774032bf34ee44339b07663262dcd6f6/medicine-shop",
+      "https://crudcrud.com/api/2656e1aa66bd44e19cd61e84e2373072/medicine-shop",
       {
         method: "POST",
         body: JSON.stringify({

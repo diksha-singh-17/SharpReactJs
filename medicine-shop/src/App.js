@@ -1,13 +1,9 @@
 import "./App.css";
 import { useRef, useContext, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import AuthContext from "./store/AuthContext";
 import ShowProducts from "./components/ShowProducts";
-import { CartContextProvider } from "./store/CartContext";
 import CartItems from "./components/CartItems";
+import med from "../src/med.jpg";
 
 function App() {
   const inputRef = useRef();
@@ -29,7 +25,7 @@ function App() {
     console.log(authCntxt);
 
     fetch(
-      "https://crudcrud.com/api/774032bf34ee44339b07663262dcd6f6/medicine-shop"
+      "https://crudcrud.com/api/2656e1aa66bd44e19cd61e84e2373072/medicine-shop"
     )
       .then((res) => res.json())
       .then((data) => {
@@ -40,53 +36,70 @@ function App() {
   };
 
   return (
-    <CartContextProvider>
-      <div className="App">
-        <h1>Medicine Shop</h1>
-        <div className="d-flex justify-content-end m-4">
+    <>
+      <div
+        className="relative "
+        style={{
+          backgroundImage: `url(${med})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute top-0 left-0 tw-bg-gradient-to-b tw-from-zinc-900 ">
+          <div className="tw-flex tw-justify-center ">
+            <h1 className="tw-font-bold tw-text-white tw-text-3xl">
+              Medicine Shop
+            </h1>
+          </div>
           <CartItems />
-        </div>
-
-        <div className="m-4 d-flex justify-content-start flex-column align-items-center ">
-          MedicineName:{" "}
-          <InputGroup className="mb-3 w-50">
-            <Form.Control
+          <form className="absolute tw-flex tw-flex-col tw-justify-center tw-items-center tw-p-6 tw-m-4 ">
+            <label className=" tw-text-white tw-rounded-lg  tw-font-bold">
+              MedicineName:{" "}
+            </label>
+            <input
+              type="text"
               ref={inputRef}
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-default"
+              className="tw-rounded-lg tw-m-2 tw-px-4 tw-py-2 tw-border-orange-200"
             />
-          </InputGroup>
-          Description:{" "}
-          <InputGroup className="mb-3 w-50">
-            <Form.Control
+            <label className=" tw-text-white tw-rounded-lg  tw-font-bold">
+              {" "}
+              Description:{" "}
+            </label>
+            <input
+              type="text"
               ref={descRef}
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-default"
+              className="tw-rounded-lg tw-m-2 tw-px-4 tw-py-4 tw-border-orange-200"
             />
-          </InputGroup>
-          Price:{" "}
-          <InputGroup className="mb-3 w-25">
-            <Form.Control
+            <label className=" tw-text-white tw-rounded-lg tw-font-bold">
+              {" "}
+              Price:
+            </label>
+            <input
+              type="number"
+              className="tw-rounded-lg tw-m-2 tw-px-4 tw-py-2 tw-border-orange-200"
               ref={priceRef}
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-default"
             />
-          </InputGroup>
-          Quantity Available:{" "}
-          <InputGroup className="mb-3 w-25">
-            <Form.Control
+            <label className="tw-font-bold tw-text-white  ">
+              Quantity Available:
+            </label>
+
+            <input
+              className="tw-rounded-lg tw-m-2 tw-px-4 tw-py-2 tw-border-orange-200"
+              typr="number"
               ref={quantityRef}
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-default"
             />
-          </InputGroup>
-          <Button variant="secondary" onClick={addItemsHandler}>
-            Add Product
-          </Button>
+            <button
+              variant="secondary"
+              className="tw-bg-gray-50 tw-rounded-lg tw-m-2 tw-px-4 tw-py-2 tw-font-bold hover:tw-bg-orange-200 tw-cursor-pointer tw-border-orange-200 tw-shadow-lg tw-shadow-white"
+              onClick={addItemsHandler}
+            >
+              Add Product
+            </button>
+          </form>
+          <ShowProducts products={products} />
         </div>
-        <ShowProducts products={products} />
       </div>
-    </CartContextProvider>
+    </>
   );
 }
 

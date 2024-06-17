@@ -13,11 +13,18 @@ const CartItems = () => {
   return (
     <div>
       {console.log(cartCntxt.items)}
-      <Button variant="primary" onClick={handleShow}>
-        Cart
-      </Button>
-      <span>{length}</span>
-      <Modal show={show} onHide={handleClose}>
+      <div className="tw-flex tw-justify-end tw-p-2">
+        <Button
+          variant="primary"
+          onClick={handleShow}
+          className="tw-rounded-full tw-px-4 tw-p-2 hover:tw-cursor-pointer tw-border-orange-200"
+        >
+          Cart🛒
+        </Button>
+        <span className="tw-text-white">{length}</span>
+      </div>
+
+      <Modal className="absolute" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Your Cart</Modal.Title>
         </Modal.Header>

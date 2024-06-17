@@ -9,7 +9,8 @@ const ShowProducts = (props) => {
 
   useEffect(() => {
     setProducts(products);
-
+    console.log("indise effect");
+    console.log("inise effcet products", products);
     setCart(cartCntxt.items);
   }, []);
 
@@ -56,68 +57,43 @@ const ShowProducts = (props) => {
   return (
     <div>
       {console.log(cartCntxt.items)}
-      <h1>Products</h1>
-      <div className="d-flex justify-content-around m-2 p-2">
-        <h2>Name</h2>
-        <h2>Description</h2>
-        <h2>Price</h2>
-        <h2>Quantity</h2>
+      <h1 className="tw-flex tw-justify-center tw-text-black tw-shadow-white tw-font-extrabold">
+        Products
+      </h1>
+      <div className="tw-flex  tw-justify-around m-2 p-2">
+        <h2 className=" tw-text-white tw-font-extrabold">Name</h2>
+        <h2 className=" tw-text-white tw-font-extrabold">Description</h2>
+        <h2 className=" tw-text-white tw-font-extrabold">Price</h2>
+        <h2 className=" tw-text-white tw-font-extrabold">Quantity</h2>
       </div>
 
       <div>
-        {products.length === 1
-          ? props.products.map((item) => {
-              return (
-                <div
-                  className="d-flex justify-content-around m-2 p-2"
-                  key={item._id}
-                >
-                  <h3>{item.name}</h3>
-                  <h3>{item.desc}</h3>
-                  <h3>{item.price}</h3>
-                  <h3>{item.quantity}</h3>
-                  <Button
-                    onClick={() =>
-                      addItemToCartHandler(
-                        item.name,
-                        item.desc,
-                        item.price,
-                        item.quantity,
-                        item._id
-                      )
-                    }
-                  >
-                    Add
-                  </Button>
-                </div>
-              );
-            })
-          : products.map((item) => {
-              return (
-                <div
-                  className="d-flex justify-content-around m-2 p-2"
-                  key={item._id}
-                >
-                  <h3>{item.name}</h3>
-                  <h3>{item.desc}</h3>
-                  <h3>{item.price}</h3>
-                  <h3>{item.quantity}</h3>
-                  <Button
-                    onClick={() =>
-                      addItemToCartHandler(
-                        item.name,
-                        item.desc,
-                        item.price,
-                        item.quantity,
-                        item._id
-                      )
-                    }
-                  >
-                    Add
-                  </Button>
-                </div>
-              );
-            })}
+        {props.products.map((item) => {
+          return (
+            <div
+              className="d-flex justify-content-around m-2 p-2"
+              key={item._id}
+            >
+              <h3>{item.name}</h3>
+              <h3>{item.desc}</h3>
+              <h3>{item.price}</h3>
+              <h3>{item.quantity}</h3>
+              <Button
+                onClick={() =>
+                  addItemToCartHandler(
+                    item.name,
+                    item.desc,
+                    item.price,
+                    item.quantity,
+                    item._id
+                  )
+                }
+              >
+                Add
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
