@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { validate } from "../utils/validate";
 import { useNavigate } from "react-router-dom";
 import { API_KEY } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/AuthReducer";
 
 const Body = () => {
   const [error, setError] = useState(null);
@@ -10,6 +12,8 @@ const Body = () => {
   const password = useRef(null);
   const confirmPassword = useRef(null);
   const navigate = useNavigate();
+  const isAuth = useSelector((state) => state.login);
+  const dispatch = useDispatch();
 
   const toggleSignInHandler = () => {
     setIsLogin(!isLogin);
@@ -49,7 +53,9 @@ const Body = () => {
       })
       .then((data) => {
         if (!data.error) localStorage.setItem("idToken", data.idToken);
+        dispatch(authActions.token(data.idToken));
         if (data && !data.error && !data.error?.message) {
+          dispatch(authActions.login());
           navigate("/browse");
         }
         if (data.error) {

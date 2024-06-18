@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DATABASE_URL } from "../utils/constants";
 
+import { useSelector, useDispatch } from "react-redux";
+import { expenseActions } from "../store/ExpenseReducer";
+
 const Expenses = () => {
   // const amount = useRef(null);
   // const desc = useRef(null);
@@ -8,6 +11,8 @@ const Expenses = () => {
   const [expenseData, setExpenseData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(null);
+  const dispatch = useDispatch();
+  const expenseFromStore = useSelector((state) => state.expense);
 
   const formRefs = {
     // id: useRef(null),
@@ -31,8 +36,10 @@ const Expenses = () => {
             ...data[key],
             id: key,
           });
-          setExpenseData(filteredData);
         }
+
+        setExpenseData(filteredData);
+        dispatch(expenseActions.addExpense(filteredData));
         if (data.error) {
           throw new Error(data.error.message);
         }
@@ -70,7 +77,6 @@ const Expenses = () => {
               id: key,
             });
           }
-
           setExpenseData((prevItems) =>
             prevItems.map((item) =>
               item.id === filteredData.id ? response.data : item
@@ -111,7 +117,10 @@ const Expenses = () => {
                 id: key,
               });
             }
+            console.log(data, "*********data raw");
+            console.log(filteredData, "***************filter data");
             setExpenseData(filteredData);
+
             if (data.error) {
               throw new Error(data.error.message);
             }
