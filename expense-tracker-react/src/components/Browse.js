@@ -6,6 +6,7 @@ import Expenses from "./Expenses";
 
 const Browse = () => {
   const navigate = useNavigate();
+
   const handleProfileChange = () => {
     navigate("/profile");
   };

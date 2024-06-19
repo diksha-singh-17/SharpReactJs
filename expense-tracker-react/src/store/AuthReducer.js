@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { isLoggedIn: false, token: null };
+const initialState = { isLoggedIn: false, token: null, theme: "light" };
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -13,6 +13,9 @@ const authSlice = createSlice({
     },
     token(state, action) {
       state.token = action.payload;
+    },
+    toggleTheme(state, action) {
+      state.theme = action.payload;
     },
   },
 });

@@ -3,16 +3,19 @@ import { DATABASE_URL } from "../utils/constants";
 
 import { useSelector, useDispatch } from "react-redux";
 import { expenseActions } from "../store/ExpenseReducer";
-
+import "../App.css";
+import Premium from "./Premium";
+import CheckPremium from "./CheckPremium";
 const Expenses = () => {
-  // const amount = useRef(null);
-  // const desc = useRef(null);
-  // const category = useRef(null);
   const [expenseData, setExpenseData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(null);
+  const [isPremium, setIsPremium] = useState(false);
+  const [formData, setFormData] = useState(null);
   const dispatch = useDispatch();
-  const expenseFromStore = useSelector((state) => state.expense);
+  const [checkPremium, chekIsPremium] = useState(null);
+  const expenseFromStore = useSelector((state) => state.expense.movie);
+  const theme = useSelector((state) => state.auth.theme);
 
   const formRefs = {
     // id: useRef(null),
@@ -23,6 +26,7 @@ const Expenses = () => {
   };
 
   let url = DATABASE_URL + "expenses.json";
+  let res = false;
 
   useEffect(() => {
     fetch(url)
@@ -49,59 +53,16 @@ const Expenses = () => {
       });
   }, []);
 
-  const handleExpensesFormData = () => {
-    if (isEditing) {
-      const editURL =
-        "https://nice-theater-338718-default-rtdb.firebaseio.com/expenses/" +
-        id +
-        ".json";
-      fetch(editURL, {
-        method: "PUT",
-        body: JSON.stringify({
-          amount: formRefs.amount.current.value,
-          desc: formRefs.desc.current.value,
-          category: formRefs.category.current.value,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((response) => {
-          const filteredData = [];
-          for (let key in response) {
-            filteredData.unshift({
-              ...response[key],
-              id: key,
-            });
-          }
-          setExpenseData((prevItems) =>
-            prevItems.map((item) =>
-              item.id === filteredData.id ? response.data : item
-            )
-          );
-          if (response.error) {
-            throw new Error(response.error.message);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      if (
-        formRefs.amount.current &&
-        formRefs.desc.current &&
-        formRefs.category.current
-      ) {
-        fetch(url, {
-          method: "POST",
-          body: JSON.stringify({
-            amount: formRefs.amount.current.value,
-            desc: formRefs.desc.current.value,
-            category: formRefs.category.current.value,
-          }),
+  useEffect(() => {
+    if (formData) {
+      if (isEditing) {
+        const editURL =
+          "https://nice-theater-338718-default-rtdb.firebaseio.com/expenses/" +
+          id +
+          ".json";
+        fetch(editURL, {
+          method: "PUT",
+          body: JSON.stringify(formData),
           headers: {
             "Content-Type": "application/json",
           },
@@ -109,26 +70,93 @@ const Expenses = () => {
           .then((res) => {
             return res.json();
           })
-          .then((data) => {
+          .then((response) => {
             const filteredData = [];
-            for (let key in data) {
+            for (let key in response) {
               filteredData.unshift({
-                ...data[key],
+                ...response[key],
                 id: key,
               });
             }
-            console.log(data, "*********data raw");
-            console.log(filteredData, "***************filter data");
-            setExpenseData(filteredData);
-
-            if (data.error) {
-              throw new Error(data.error.message);
+            setExpenseData((prevItems) =>
+              prevItems.map((item) =>
+                item.id === filteredData.id ? response.data : item
+              )
+            );
+            if (response.error) {
+              throw new Error(response.error.message);
             }
           })
           .catch((error) => {
             console.error(error);
           });
+      } else {
+        if (
+          formRefs.amount.current &&
+          formRefs.desc.current &&
+          formRefs.category.current
+        ) {
+          fetch(url, {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => {
+              return res.json();
+            })
+            .then((data) => {
+              const filteredData = [];
+              for (let key in data) {
+                filteredData.unshift({
+                  ...data[key],
+                  id: key,
+                });
+              }
+              console.log(data, "*********data raw");
+              console.log(filteredData, "***************filter data");
+              if (data.error) {
+                throw new Error(data.error.message);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
       }
+    }
+  }, [formData]);
+
+  const handleExpensesFormData = () => {
+    if (
+      formRefs.amount.current &&
+      formRefs.desc.current &&
+      formRefs.category.current
+    ) {
+      const amountValue = Number(formRefs.amount.current.value);
+      const newIsPremium = amountValue > 10000;
+
+      setIsPremium(newIsPremium);
+
+      //sum of all expenses
+      let sum = 0;
+      expenseFromStore?.map((item) => {
+        return (sum = Number(item.amount) + sum);
+      });
+      chekIsPremium(sum);
+
+      dispatch(expenseActions.addPremium(sum));
+
+      // Set form data with the updated isPremium value
+      setFormData({
+        amount: formRefs.amount.current.value,
+        desc: formRefs.desc.current.value,
+        category: formRefs.category.current.value,
+        premium: newIsPremium,
+      });
+
+      console.log(newIsPremium, "isprem");
     }
   };
 
@@ -171,7 +199,7 @@ const Expenses = () => {
   };
 
   return (
-    <div>
+    <div className={theme}>
       <div>
         <span className="text-pink-300 text-2xl shadow-md font-bold">
           Daily Expenses
@@ -204,6 +232,8 @@ const Expenses = () => {
             <option value="petrol">Petrol</option>
             <option value="food">Food</option>
             <option value="salary">salary</option>
+            <option value="grocery">Grocery</option>
+            <option value="others">Others</option>
           </select>
 
           <div>
@@ -218,6 +248,9 @@ const Expenses = () => {
       </div>
 
       <div>
+        {(res = Number(checkPremium) > 10000)}
+        {res && <CheckPremium />}
+
         <ul className="text-xl text-slate-800  m-4 bg-gradient-to-r from-slate-600">
           {expenseData?.map((expense) => {
             return (
