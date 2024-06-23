@@ -5,7 +5,7 @@ import Products from "./components/Shop/Products";
 import React from "react";
 import Notification from "./components/UI/Notifications";
 import { useEffect } from "react";
-import { showNotification } from "./store/uiSlice";
+import { fetchCartData, sendCartData } from "./store/cart-actions";
 
 let isInitial = true;
 function App() {
@@ -15,45 +15,14 @@ function App() {
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-    const sendCartData = async () => {
-      dispatch(
-        showNotification({
-          title: "Loading...",
-          status: "pending",
-          message: "Sending cart data!",
-        })
-      );
-      const response = await fetch(
-        "https://nice-theater-338718-default-rtdb.firebaseio.com/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Sending data failed");
-      }
-
-      dispatch(
-        showNotification({
-          title: "Success",
-          status: "success..",
-          message: "Sent cart data successfully!",
-        })
-      );
-    };
+    dispatch(fetchCartData());
+  }, [dispatch]);
+  useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
-    sendCartData().catch((error) => {
-      showNotification({
-        title: "Error",
-        status: "error",
-        message: "Sending cart data failed!",
-      });
-    });
+    dispatch(sendCartData(cart));
   }, [cart, dispatch]);
   return (
     <React.Fragment>
