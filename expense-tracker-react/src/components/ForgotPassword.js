@@ -72,7 +72,7 @@ const ForgotPassword = () => {
             </button>
           </div>
           <p className="text-white font-semibold cursor-pointer">
-            Alreday a user?{" "}
+            Already a user?{" "}
             <b className="underline" onClick={handleLoginNavigation}>
               Login
             </b>
