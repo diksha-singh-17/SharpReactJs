@@ -1,29 +1,29 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { validate } from "../utils/validate";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+const SignIn = () => {
   const [error, setError] = useState(null);
   const email = useRef();
   const password = useRef();
-  const confirmPassword = useRef();
+  const navigate = useNavigate();
 
   const formDataHandler = () => {
     const message = validate(
-      email.current.value,
-      password.current.value,
-      confirmPassword?.current?.value,
-      false
+      email?.current.value,
+      password?.current.value,
+      null,
+      true
     );
     setError(message);
     if (message) return; //early return
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I",
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAo7xmAFa3rvDjDEFnZ9VoSTT1Kb7hfK6I",
       {
         method: "POST",
         body: JSON.stringify({
@@ -35,7 +35,9 @@ const SignUp = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("successfully signed up!!");
+        localStorage.setItem("mail_token", data.idToken);
+        console.log("successfully signed in!!");
+        if (!data.error) navigate("/body");
       })
       .catch((error) => console.log(error));
   };
@@ -44,7 +46,7 @@ const SignUp = () => {
     <div>
       <Card style={{ width: "18rem" }}>
         <Card.Body>
-          <h1 className="text-muted ">Sign Up</h1>
+          <h1 className="text-muted ">Sign In</h1>
           <Card.Text>
             <Form>
               <InputGroup className="mb-3">
@@ -63,20 +65,13 @@ const SignUp = () => {
                   className="mb-3 rounded"
                 />
               </InputGroup>
-              <InputGroup className="mb-3">
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm Password"
-                  ref={confirmPassword}
-                  className="mb-3 rounded"
-                />
-              </InputGroup>
+
               <p className="text-danger">{error}</p>
               <Button variant="success" onClick={formDataHandler}>
-                SignUp
+                SignIn
               </Button>
               <p>
-                Already have an acoount? <Link to="/login">Login</Link>
+                Don't have an acoount? <Link to="/">SignUp</Link>
               </p>
             </Form>
           </Card.Text>
@@ -86,4 +81,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
