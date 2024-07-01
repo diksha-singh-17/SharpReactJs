@@ -75,13 +75,13 @@ const SignUp = () => {
               <Button variant="success" onClick={formDataHandler}>
                 SignUp
               </Button>
-              <p>
-                Already have an acoount? <Link to="/login">Login</Link>
-              </p>
             </Form>
           </Card.Text>
         </Card.Body>
       </Card>
+      <p>
+        Already have an acoount? <Link to="/login">Login</Link>
+      </p>
     </div>
   );
 };
