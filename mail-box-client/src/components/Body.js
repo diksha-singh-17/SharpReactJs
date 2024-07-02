@@ -1,15 +1,26 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/esm/InputGroup";
 import Button from "react-bootstrap/esm/Button";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 const Body = () => {
   const email = useRef();
   const subject = useRef();
-  const body = useRef();
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
+  const [bodyContent, setBodyContent] = useState("");
 
   const emailHandler = () => {
-    console.log(email.current.value, subject.current.value, body.current.value);
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = bodyContent;
+    const plainText = tempDiv.innerText;
+
+    console.log(email.current.value, subject.current.value, plainText);
     fetch(
       "https://nice-theater-338718-default-rtdb.firebaseio.com/mailBox.json",
       {
@@ -17,13 +28,21 @@ const Body = () => {
         body: JSON.stringify({
           email: email.current.value,
           subject: subject.current.value,
-          body: body.current.value,
+          body: plainText,
         }),
       }
     )
       .then((res) => res.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
+  };
+
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    const bodyValue = draftToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+    setBodyContent(bodyValue);
   };
 
   return (
@@ -55,15 +74,13 @@ const Body = () => {
               </InputGroup>
             </Card.Subtitle>
             <Card.Text>
-              <InputGroup className="mb-3" size="lg">
-                <Form.Control
-                  as="textarea"
-                  placeholder="body"
-                  ref={body}
-                  className="mb-3 rounded"
-                  style={{ height: "30rem" }}
-                />
-              </InputGroup>
+              <Editor
+                editorState={editorState}
+                toolbarClassName="toolbarClassName"
+                wrapperClassName="wrapperClassName"
+                editorClassName="editorClassName"
+                onEditorStateChange={onEditorStateChange}
+              />
             </Card.Text>
             <Button variant="success" className="px-4" onClick={emailHandler}>
               Send
