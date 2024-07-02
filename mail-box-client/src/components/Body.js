@@ -7,6 +7,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+
 const Body = () => {
   const email = useRef();
   const subject = useRef();
@@ -20,20 +21,42 @@ const Body = () => {
     tempDiv.innerHTML = bodyContent;
     const plainText = tempDiv.innerText;
 
-    console.log(email.current.value, subject.current.value, plainText);
+    // Fetch existing data
     fetch(
-      "https://nice-theater-338718-default-rtdb.firebaseio.com/mailBox.json",
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          email: email.current.value,
-          subject: subject.current.value,
-          body: plainText,
-        }),
-      }
+      "https://nice-theater-338718-default-rtdb.firebaseio.com/mailBox.json"
     )
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log("Fetched Data:", data);
+
+        // Check if data exists and is an array
+        const existingData = data && Array.isArray(data) ? data : [];
+        const currentTime = new Date().toLocaleTimeString();
+        // Append new data to the existing array
+        const newData = [
+          ...existingData,
+          {
+            email: email.current.value,
+            subject: subject.current.value,
+            body: plainText,
+            newTime: currentTime,
+          },
+        ];
+
+        // Send updated data back to the server
+        return fetch(
+          "https://nice-theater-338718-default-rtdb.firebaseio.com/mailBox.json",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newData),
+          }
+        );
+      })
+      .then((res) => res.json())
+      .then((data) => console.log("updated data"))
       .catch((error) => console.log(error));
   };
 

@@ -75,7 +75,7 @@ const SignIn = () => {
         </Card.Body>
       </Card>
       <p>
-        Don't have an acoount? <Link to="/">SignUp</Link>
+        Don't have an acoount? <Link to="/signup">SignUp</Link>
       </p>
     </div>
   );
