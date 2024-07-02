@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Inbox = () => {
   const [mail, setMail] = useState([]);
@@ -14,11 +14,8 @@ const Inbox = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // Assuming data is an object where keys are unique identifiers for each mail item
         if (data) {
-          const mailArray = Object.values(data);
-          setMail(mailArray);
+          setMail(data);
         } else {
           setMail([]); // If data is null or undefined
         }
