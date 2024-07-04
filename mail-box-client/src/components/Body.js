@@ -40,6 +40,8 @@ const Body = () => {
             subject: subject.current.value,
             body: plainText,
             newTime: currentTime,
+            id: email.current.value,
+            read: false,
           },
         ];
 
@@ -47,7 +49,7 @@ const Body = () => {
         return fetch(
           "https://nice-theater-338718-default-rtdb.firebaseio.com/mailBox.json",
           {
-            method: "PUT",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
@@ -56,7 +58,7 @@ const Body = () => {
         );
       })
       .then((res) => res.json())
-      .then((data) => console.log("updated data"))
+      .then((data) => console.log("updated data", data))
       .catch((error) => console.log(error));
   };
 

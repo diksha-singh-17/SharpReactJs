@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import Body from "./components/Body";
 import Inbox from "./components/Inbox";
+import Message from "./components/Message";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -11,6 +12,7 @@ function App() {
     { path: "/signin", element: <SignIn /> },
     { path: "/body", element: <Body /> },
     { path: "/signup", element: <SignUp /> },
+    { path: "/message/:id", element: <Message /> },
   ]);
   return (
     <div className="App">

@@ -30,6 +30,7 @@ const SignIn = () => {
           email: email.current.value,
           password: password.current.value,
           returnSecureToken: true,
+          id: email.current.value,
         }),
       }
     )
