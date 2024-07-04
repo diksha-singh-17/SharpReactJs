@@ -44,6 +44,16 @@ const Inbox = () => {
     navigate(`/message/${id}`);
   };
 
+  const deleteMailHandler = (id) => {
+    fetch(
+      `https://nice-theater-338718-default-rtdb.firebaseio.com/mailBox/${id}.json`,
+      {
+        method: "DELETE",
+      }
+    );
+    console.log("successfully deleted mail!!");
+  };
+
   return (
     <div>
       <h1>Inbox</h1>
@@ -52,19 +62,33 @@ const Inbox = () => {
           {console.log("Mail state:", mail)}
           {mail.length > 0 ? (
             mail.map((item, index) => (
-              <div
-                id={item.email}
-                key={index}
-                className="d-flex justify-content-around border-2 border-bottom m-2"
-                onClick={() => messageHandler(item.id)}
-                style={{ cursor: "pointer" }}
-              >
-                <h2 className="p-2">{item.subject}</h2>
-                <p className="text-truncate p-2">
-                  {!item.read && <span style={{ color: "blue" }}>•</span>}
-                  {item.body}
-                </p>
-                <p>{item.newTime}</p>
+              <div className="">
+                <div
+                  id={item.email}
+                  key={index}
+                  className="d-flex justify-content-around border-2 border-bottom m-2"
+                >
+                  <h2 className="p-2">{item.subject}</h2>
+                  <p
+                    className="text-truncate p-2"
+                    onClick={() => messageHandler(item.id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {!item.read && <span style={{ color: "blue" }}>•</span>}
+                    {item.body}
+                  </p>
+                  <p>{item.newTime}</p>
+
+                  <div className="m-2">
+                    <Button
+                      variant="danger"
+                      className="px-2"
+                      onClick={() => deleteMailHandler(item.id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </div>
               </div>
             ))
           ) : (
