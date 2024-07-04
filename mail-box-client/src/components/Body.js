@@ -7,6 +7,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { useNavigate } from "react-router-dom";
 
 const Body = () => {
   const email = useRef();
@@ -15,7 +16,7 @@ const Body = () => {
     EditorState.createEmpty()
   );
   const [bodyContent, setBodyContent] = useState("");
-
+  const navigate = useNavigate();
   const emailHandler = () => {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = bodyContent;
@@ -70,49 +71,69 @@ const Body = () => {
     setBodyContent(bodyValue);
   };
 
+  const inboxHandler = () => {
+    navigate("/");
+  };
+
+  const sentMessagesHandler = () => {
+    navigate("/sentMessages");
+  };
   return (
     <div>
       <h1>Welcome!! to mail box client.</h1>
       <h2>Here you can send and receive mails.</h2>
-
-      <Card style={{ width: "60rem" }}>
-        <Card.Body>
-          <Form>
-            <Card.Title>
-              <InputGroup className="mb-3">
-                <Form.Control
-                  placeholder="Email"
-                  type="text"
-                  ref={email}
-                  className="mb-3 rounded"
+      <div className="">
+        <div className="m-2 ">
+          <Button variant="info" className="px-4 m-2" onClick={inboxHandler}>
+            Inbox
+          </Button>
+          <Button
+            variant="info"
+            className="px-4 "
+            onClick={sentMessagesHandler}
+          >
+            Sent
+          </Button>
+        </div>
+        <Card style={{ width: "60rem" }}>
+          <Card.Body>
+            <Form>
+              <Card.Title>
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    placeholder="Email"
+                    type="text"
+                    ref={email}
+                    className="mb-3 rounded"
+                  />
+                </InputGroup>
+              </Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    placeholder="subject"
+                    type="text"
+                    ref={subject}
+                    className="mb-3 rounded"
+                  />
+                </InputGroup>
+              </Card.Subtitle>
+              <Card.Text>
+                <Editor
+                  editorState={editorState}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={onEditorStateChange}
                 />
-              </InputGroup>
-            </Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              <InputGroup className="mb-3">
-                <Form.Control
-                  placeholder="subject"
-                  type="text"
-                  ref={subject}
-                  className="mb-3 rounded"
-                />
-              </InputGroup>
-            </Card.Subtitle>
-            <Card.Text>
-              <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onEditorStateChange={onEditorStateChange}
-              />
-            </Card.Text>
-            <Button variant="success" className="px-4" onClick={emailHandler}>
-              Send
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
+              </Card.Text>
+              <Button variant="success" className="px-4" onClick={emailHandler}>
+                Send
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
     </div>
   );
 };

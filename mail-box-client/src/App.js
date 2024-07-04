@@ -5,6 +5,7 @@ import SignIn from "./components/SignIn";
 import Body from "./components/Body";
 import Inbox from "./components/Inbox";
 import Message from "./components/Message";
+import SentMessages from "./components/SentMessages";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -13,6 +14,7 @@ function App() {
     { path: "/body", element: <Body /> },
     { path: "/signup", element: <SignUp /> },
     { path: "/message/:id", element: <Message /> },
+    { path: "/sentMessages", element: <SentMessages /> },
   ]);
   return (
     <div className="App">
