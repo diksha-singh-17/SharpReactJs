@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Inbox = () => {
   const [mail, setMail] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
   const navigate = useNavigate();
 
   const fetchData = () => {
@@ -25,6 +26,7 @@ const Inbox = () => {
           });
           console.log("Formatted data:", formattedData);
           setMail(formattedData);
+          setUnreadCount(formattedData.filter((item) => !item.read).length);
         } else {
           setMail([]); // If data is null or undefined
         }
@@ -33,7 +35,9 @@ const Inbox = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 2000);
   }, []);
 
   const composeEmailHandler = () => {
@@ -57,6 +61,7 @@ const Inbox = () => {
   return (
     <div>
       <h1>Inbox</h1>
+      <p>Total unread messages: {unreadCount}</p>
       <Card style={{ width: "50rem" }}>
         <Card.Body>
           {console.log("Mail state:", mail)}
