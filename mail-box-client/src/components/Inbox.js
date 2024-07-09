@@ -34,7 +34,6 @@ const Inbox = () => {
                     {item.body}
                   </p>
                   <p>{item.newTime}</p>
-
                   <div className="m-2">
                     <Button
                       variant="danger"
