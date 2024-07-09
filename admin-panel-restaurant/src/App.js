@@ -1,8 +1,6 @@
 import "./App.css";
-import Categories from "./components/Categories";
 import Header from "./components/Header";
 import MenuBar from "./components/MenuBar";
-import Recipes from "./components/Recipes";
 
 function App() {
   return (
@@ -12,9 +10,9 @@ function App() {
           <MenuBar />
         </div>
 
-        <div className="col-span-9 ">
+        <div className="col-span-9 bg-slate-200">
           <Header />
-          <div className="bg-slate-200  flex justify-around  items-center">
+          <div className="  flex justify-around  items-center">
             <div className="flex justify-center border-double border-4 flex-col items-center  p-4 m-5 rounded-lg border-slate-600">
               <h1 className="text-2xl">Categories</h1>
               <button className="bg-slate-600 p-2 m-2 rounded-md text-white">
@@ -36,8 +34,6 @@ function App() {
           </div>
         </div>
       </div>
-      <Categories />
-      <Recipes />
     </div>
   );
 }
