@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MenuBar from "./MenuBar";
 import Header from "./Header";
-import { DATABASE_URL } from "../constants/constants";
+import { DATABASE_URL } from "../utils/constants";
 
 const Recipes = () => {
   const [showForm, setShowForm] = useState(false);
@@ -11,6 +11,8 @@ const Recipes = () => {
   const category = useRef(null);
   const recipeName = useRef(null);
   const price = useRef(null);
+  const recipeImage = useRef(null);
+  const ingredients = useRef(null);
 
   const fetchRecipeData = async () => {
     try {
@@ -47,6 +49,8 @@ const Recipes = () => {
             category: category?.current.value,
             recipeName: recipeName?.current.value,
             price: price?.current.value,
+            ingredients: ingredients?.current.value,
+            recipeImage: recipeImage?.current.value,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -59,6 +63,8 @@ const Recipes = () => {
             category: category?.current.value,
             recipeName: recipeName?.current.value,
             price: price?.current.value,
+            ingredients: ingredients?.current.value,
+            recipeImage: recipeImage?.current.value,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -68,6 +74,8 @@ const Recipes = () => {
       category.current.value = "";
       recipeName.current.value = "";
       price.current.value = "";
+      ingredients.current.value = "";
+      recipeImage.current.value = "";
     } catch {
       console.error("error");
     }
@@ -82,6 +90,8 @@ const Recipes = () => {
         category.current.value = item.category;
         recipeName.current.value = item.recipeName;
         price.current.value = item.price;
+        ingredients.current.value = item.ingredients;
+        recipeImage.current.value = item.recipeImage;
       }
     }, 1000);
   };
@@ -106,9 +116,17 @@ const Recipes = () => {
               >
                 <input
                   type="text"
-                  placeholder="recipe name"
+                  placeholder="Recipe Name"
                   ref={recipeName}
                   className="m-4 p-2 rounded-lg border border-transparent"
+                />
+                <textarea
+                  type="text"
+                  rows="3"
+                  cols="23"
+                  placeholder="Ingredients"
+                  ref={ingredients}
+                  className="m-4 py-6 px-2 rounded-lg border border-transparent"
                 />
                 <select
                   className="m-4 p-2 rounded-lg w-full"
@@ -120,6 +138,12 @@ const Recipes = () => {
                   <option value="lunch">Lunch</option>
                   <option value="dinner">Dinner</option>
                 </select>
+                <input
+                  type="text"
+                  placeholder="Recipe Image Url"
+                  ref={recipeImage}
+                  className="m-4 p-2 rounded-lg border border-transparent"
+                />
                 <input
                   type="number"
                   placeholder="Price"
@@ -156,8 +180,10 @@ const Recipes = () => {
                     key={index}
                   >
                     <h2>{item.recipeName}</h2>
+                    <p>{item.ingredients}</p>
+                    <p>{item.recipeImage}</p>
                     <p>{item.category}</p>
-                    <p>{item.price}</p>
+                    <p>${item.price}</p>
                     <div>
                       <button
                         className="bg-slate-600 text-white rounded-md p-2 m-2"

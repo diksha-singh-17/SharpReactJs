@@ -7,7 +7,7 @@ const MenuBar = () => {
   const handleNavigation = (item) => {
     switch (item) {
       case "DashBoard":
-        navigate("/");
+        navigate("/dashboard");
         break;
       case "Categories":
         navigate("/categories");

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import MenuBar from "./MenuBar";
 import Header from "./Header";
-import { DATABASE_URL } from "../constants/constants";
+import { DATABASE_URL } from "../utils/constants";
 
 const Categories = () => {
   const [showForm, setShowForm] = useState(false);

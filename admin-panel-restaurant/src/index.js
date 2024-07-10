@@ -7,6 +7,10 @@ import Categories from "./components/Categories";
 import Recipes from "./components/Recipes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Orders from "./components/Orders";
+import Dashboard from "./components/Dashboard";
+import appStore from "./store/AppStore";
+import { Provider } from "react-redux";
+import ForgotPassword from "./components/ForgotPassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -14,6 +18,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
   {
     path: "/categories",
@@ -27,13 +35,22 @@ const appRouter = createBrowserRouter([
     path: "/orders",
     element: <Orders />,
   },
+  {
+    path: "*",
+    element: <App />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
 ]);
 root.render(
   <React.StrictMode>
-    <RouterProvider router={appRouter}>
-      {" "}
-      <App />
-    </RouterProvider>
+    <Provider store={appStore}>
+      <RouterProvider router={appRouter}>
+        <App />
+      </RouterProvider>
+    </Provider>
   </React.StrictMode>
 );
 
