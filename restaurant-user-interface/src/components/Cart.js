@@ -1,9 +1,14 @@
 import React from "react";
 import Portal from "./Portal";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
+  const navigate = useNavigate();
 
+  const checkoutItemsHandler = () => {
+    navigate("/checkout");
+  };
+  if (!isOpen) return null;
   return (
     <Portal containerId="cart-root">
       <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
@@ -26,6 +31,7 @@ const Cart = ({ isOpen, onClose }) => {
             <button
               className="px-4 py-2 mx-2  text-white rounded"
               style={{ backgroundColor: "rgb(254, 161, 22)" }}
+              onClick={checkoutItemsHandler}
             >
               Checkout
             </button>

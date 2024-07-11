@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const categoryHandler = () => {
-    navigate("/recipes");
+  const [categoryItems, setCategoryItems] = useState([]);
+
+  const categoryHandler = ({ category }) => {
+    navigate(`/recipes/${category}`);
   };
+
+  const fetchCategoryData = async () => {
+    const res = await fetch(
+      "https://nice-theater-338718-default-rtdb.firebaseio.com/restaurant-admin.json"
+    );
+    const data = await res.json();
+    const formattedData = Object.keys(data).map((key) => {
+      return { ...data[key], id: key };
+    });
+    console.log(formattedData);
+    setCategoryItems(formattedData);
+  };
+
+  useEffect(() => {
+    fetchCategoryData();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -16,69 +35,24 @@ const Dashboard = () => {
           className="flex flex-row flex-wrap m-8 p-8 shadow-xl justify-around rounded-se-full"
           style={{ backgroundColor: "rgb(35, 39, 54" }}
         >
-          <li
-            className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl cursor-pointer"
-            onClick={categoryHandler}
-          >
-            <img
-              className="p-2 rounded-2xl"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzkStQkoBP57wTO48WU8Mf5DOj7bREve2Guw&s"
-              alt="categoryimage"
-            />
-            <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
-              category1
-            </h1>
-          </li>
-          <li className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl">
-            <img
-              className="p-2 rounded-2xl"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzkStQkoBP57wTO48WU8Mf5DOj7bREve2Guw&s"
-              alt="categoryimage"
-            />
-            <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
-              category1
-            </h1>
-          </li>
-          <li className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl">
-            <img
-              className="p-2 rounded-2xl"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzkStQkoBP57wTO48WU8Mf5DOj7bREve2Guw&s"
-              alt="categoryimage"
-            />
-            <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
-              category1
-            </h1>
-          </li>
-          <li className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl">
-            <img
-              className="p-2 rounded-2xl"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzkStQkoBP57wTO48WU8Mf5DOj7bREve2Guw&s"
-              alt="categoryimage"
-            />
-            <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
-              category1
-            </h1>
-          </li>
-          <li className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl">
-            <img
-              className="p-2 rounded-2xl"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzkStQkoBP57wTO48WU8Mf5DOj7bREve2Guw&s"
-              alt="categoryimage"
-            />
-            <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
-              category1
-            </h1>
-          </li>
-          <li className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl">
-            <img
-              className="p-2 rounded-2xl"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzkStQkoBP57wTO48WU8Mf5DOj7bREve2Guw&s"
-              alt="categoryimage"
-            />
-            <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
-              category1
-            </h1>
-          </li>
+          {categoryItems?.map((item) => {
+            return (
+              <li
+                className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl cursor-pointer"
+                key={item.id}
+                onClick={() => categoryHandler(item)}
+              >
+                <img
+                  className="p-2 rounded-2xl"
+                  src={item.imageUrl}
+                  alt="categoryimage"
+                />
+                <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
+                  {item.category}
+                </h1>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <Footer />

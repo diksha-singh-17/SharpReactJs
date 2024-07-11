@@ -10,6 +10,8 @@ import Authentication from "./components/Authentication";
 import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
 import Recipes from "./components/Recipes";
+import Orders from "./components/Orders";
+import Checkout from "./components/Checkout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -27,8 +29,16 @@ const appRouter = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "/recipes",
+    path: "/recipes/:category",
     element: <Recipes />,
+  },
+  {
+    path: "/orders",
+    element: <Orders />,
+  },
+  {
+    path: "/checkout",
+    element: <Checkout />,
   },
 ]);
 root.render(
