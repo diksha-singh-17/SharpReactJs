@@ -134,9 +134,10 @@ const Recipes = () => {
                   placeholder="options"
                 >
                   <option value="">option </option>
-                  <option value="breakfast">Breakfast</option>
-                  <option value="lunch">Lunch</option>
-                  <option value="dinner">Dinner</option>
+                  <option value="Appetizers">Appetizers</option>
+                  <option value="MainCourse">MainCourse</option>
+                  <option value="Desserts">Desserts</option>
+                  <option value="Cakes">Cakes</option>
                 </select>
                 <input
                   type="text"
