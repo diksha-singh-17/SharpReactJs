@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Portal from "./Portal";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../store/CartReducer";
 
 const Cart = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const cartItem = useSelector((state) => state.cart.items);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const dispatch = useDispatch();
 
-  const checkoutItemsHandler = () => {
+  const checkoutItemsHandler = async () => {
+    console.log(cartItem);
+    await fetch(
+      "https://nice-theater-338718-default-rtdb.firebaseio.com/restaurant-cart.json",
+      {
+        method: "POST",
+        body: JSON.stringify(cartItem),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     navigate("/checkout");
   };
+
+  const decreaseQuantityHandler = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
   if (!isOpen) return null;
   return (
     <Portal containerId="cart-root">
@@ -22,11 +44,37 @@ const Cart = ({ isOpen, onClose }) => {
           >
             Cart
           </h2>
-          <ul>
-            {/* {items.map((item, index) => ( */}
-            <li className="border-b py-2">joy-happy 40</li>
-            {/* ))} */}
-          </ul>
+          {cartItem.length === 0 ? (
+            <div className="text-center text-lg"></div>
+          ) : (
+            <h2
+              className="text-xl font-bold mb-4 text-right"
+              style={{ color: "rgb(122, 156, 68)" }}
+            >
+              ${totalPrice}
+            </h2>
+          )}
+          {cartItem.length === 0 ? (
+            <div className="text-center text-lg">No items to preview</div>
+          ) : (
+            <ul>
+              {cartItem.map((item, index) => (
+                <li className="border-b p-2 flex justify-between" key={index}>
+                  <h1>{item.name}</h1>
+                  <p>
+                    ${item.price} - {item.quantity}x
+                  </p>
+                  <button
+                    onClick={() => decreaseQuantityHandler(item.id)}
+                    className="text-3xl mb-4 text-center"
+                    style={{ color: "rgb(122, 156, 68)" }}
+                  >
+                    x
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
           <div className="flex justify-end mt-4">
             <button
               className="px-4 py-2 mx-2  text-white rounded"

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cart from "./Cart";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const totalQuantity = useSelector((store) => store.cart.totalQuantity);
 
   const handleAddToCart = (item) => {
     // setCartItems([...cartItems, item]);
@@ -64,7 +66,7 @@ const Header = () => {
           style={{ backgroundColor: "rgb(254, 161, 22)" }}
           onClick={() => handleAddToCart()}
         >
-          Cart🛒 (0)
+          Cart🛒 ({totalQuantity})
         </button>
       </div>
       <Cart isOpen={isCartOpen} onClose={handleCloseCart} />

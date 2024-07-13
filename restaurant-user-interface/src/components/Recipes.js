@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../store/CartReducer";
 
 const Recipes = () => {
-  const [cartItems, setCartItems] = useState([]);
   const [recipeItems, setRecipeItems] = useState([]);
   const { category } = useParams();
+  const dispatch = useDispatch();
 
-  const handleAddToCart = (item) => {
-    setCartItems([...cartItems, item]);
+  const handleAddToCart = async (item) => {
+    const { id, recipeName, price } = item;
+    dispatch(addItemToCart({ id, price, recipeName }));
   };
 
   const fetchRecipesData = async () => {
@@ -20,14 +23,13 @@ const Recipes = () => {
     const formattedData = Object.keys(data).map((key) => {
       return { ...data[key], id: key };
     });
-    // console.log(formattedData);
-    console.log(category);
     const filtereddata = formattedData.filter(
       (item) => category === item.category
     );
-    console.log(filtereddata);
+
     setRecipeItems(filtereddata);
   };
+
   useEffect(() => {
     fetchRecipesData();
   }, []);
@@ -47,46 +49,52 @@ const Recipes = () => {
         </h1>
 
         <div className="p-2 ">
-          <ul>
-            {recipeItems?.map((item) => {
-              return (
-                <>
-                  <div className="relative -mb-1 ">
-                    <div className="absolute right-0 -top-3">
-                      <button
-                        className="px-4 py-2 rounded-md text-white"
-                        style={{ backgroundColor: "rgb(122, 156, 68)" }}
-                        onClick={() =>
-                          handleAddToCart({ name: "Sandwich", price: 50 })
-                        }
-                      >
-                        Add
-                      </button>
+          {recipeItems.length === 0 ? (
+            <div className="text-center text-lg text-white">
+              No items to preview
+            </div>
+          ) : (
+            <ul>
+              {recipeItems?.map((item) => {
+                return (
+                  <>
+                    <div className="relative -mb-1 ">
+                      <div className="absolute right-0 -top-3">
+                        <button
+                          className="px-4 py-2 rounded-md text-white"
+                          style={{ backgroundColor: "rgb(122, 156, 68)" }}
+                          onClick={() => handleAddToCart(item)}
+                        >
+                          Add
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <li
-                    key={item.id}
-                    className="flex flex-row p-2 text-white  rounded-lg border border-dotted mb-10"
-                    style={{ backgroundColor: "rgb(254, 161, 22)" }}
-                  >
-                    <div className="m-2 ">
-                      <img
-                        className="max-w-48 min-w-1.5"
-                        src={item.recipeImage}
-                        alt="recipeimage"
-                      />
-                    </div>
-                    <div className="flex flex-col m-2 ">
-                      <h1 className="text-2xl font-serif">{item.recipeName}</h1>
-                      <p className="font-thin">{item.ingredients}</p>
-                      <p className="font-bold">{item.category}</p>
-                      <p>${item.price}</p>
-                    </div>
-                  </li>
-                </>
-              );
-            })}
-          </ul>
+                    <li
+                      key={item.id}
+                      className="flex flex-row p-2 text-white  rounded-lg border border-dotted mb-10"
+                      style={{ backgroundColor: "rgb(254, 161, 22)" }}
+                    >
+                      <div className="m-2 ">
+                        <img
+                          className="max-w-48 min-w-1.5"
+                          src={item.recipeImage}
+                          alt="recipeimage"
+                        />
+                      </div>
+                      <div className="flex flex-col m-2 ">
+                        <h1 className="text-2xl font-serif">
+                          {item.recipeName}
+                        </h1>
+                        <p className="font-thin">{item.ingredients}</p>
+                        <p className="font-bold">{item.category}</p>
+                        <p>${item.price}</p>
+                      </div>
+                    </li>
+                  </>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
 

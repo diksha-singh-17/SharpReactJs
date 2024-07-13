@@ -31,29 +31,35 @@ const Dashboard = () => {
     <div>
       <Header />
       <div className="container shadow-lg flex justify-around bg-white">
-        <ul
-          className="flex flex-row flex-wrap m-8 p-8 shadow-xl justify-around rounded-se-full"
-          style={{ backgroundColor: "rgb(35, 39, 54" }}
-        >
-          {categoryItems?.map((item) => {
-            return (
-              <li
-                className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl cursor-pointer"
-                key={item.id}
-                onClick={() => categoryHandler(item)}
-              >
-                <img
-                  className="p-2 rounded-2xl"
-                  src={item.imageUrl}
-                  alt="categoryimage"
-                />
-                <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
-                  {item.category}
-                </h1>
-              </li>
-            );
-          })}
-        </ul>
+        {categoryItems.length === 0 ? (
+          <div className="text-center text-lg text-white">
+            No items to preview
+          </div>
+        ) : (
+          <ul
+            className="flex flex-row flex-wrap m-8 p-8 shadow-xl justify-around rounded-se-full"
+            style={{ backgroundColor: "rgb(35, 39, 54" }}
+          >
+            {categoryItems?.map((item) => {
+              return (
+                <li
+                  className="border border-yellow-700 bg-yellow-700 p-4 m-4 rounded-2xl cursor-pointer"
+                  key={item.id}
+                  onClick={() => categoryHandler(item)}
+                >
+                  <img
+                    className="p-2 rounded-2xl"
+                    src={item.imageUrl}
+                    alt="categoryimage"
+                  />
+                  <h1 className="text-center text-white font-medium text-2xl p-4 m-4">
+                    {item.category}
+                  </h1>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       <Footer />
     </div>

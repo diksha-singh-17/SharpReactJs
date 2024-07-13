@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useSelector } from "react-redux";
 
 const Checkout = () => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const totalPrice = useSelector((store) => store.cart.totalPrice);
+
   const checkoutItemsHandler = () => {
     setIsCheckout(true);
   };
+
   return (
     <>
       <Header />
@@ -16,6 +20,12 @@ const Checkout = () => {
           style={{ color: "rgb(122, 156, 68)" }}
         >
           Checkout
+        </h1>
+        <h1
+          className="text-3xl font-bold text-center p-4 mb-4 "
+          style={{ color: "rgb(122, 156, 68)" }}
+        >
+          ${totalPrice}
         </h1>
         <div>
           <form
