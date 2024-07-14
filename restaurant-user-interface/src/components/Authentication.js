@@ -52,7 +52,8 @@ const Authentication = () => {
         return res.json();
       })
       .then((data) => {
-        if (!data.error) localStorage.setItem("idToken", data.idToken);
+        if (!data.error)
+          localStorage.setItem("idTokenRestaurant", data.idToken);
         dispatch(token(data.idToken));
         if (data && !data.error && !data.error?.message) {
           dispatch(login());

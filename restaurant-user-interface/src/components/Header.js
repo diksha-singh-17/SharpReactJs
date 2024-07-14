@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cart from "./Cart";
 import { useSelector } from "react-redux";
+import LogOut from "./LogOut";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -9,7 +10,6 @@ const Header = () => {
   const totalQuantity = useSelector((store) => store.cart.totalQuantity);
 
   const handleAddToCart = (item) => {
-    // setCartItems([...cartItems, item]);
     setIsCartOpen(true);
   };
   const handleCloseCart = () => {
@@ -60,6 +60,14 @@ const Header = () => {
           onClick={navigateToProfileHandler}
         >
           Profile
+        </p>
+        <p
+          className="mx-4 font-semibold cursor-pointer  "
+          style={{
+            color: "rgb(122, 156, 68)",
+          }}
+        >
+          <LogOut />
         </p>
         <button
           className=" rounded-xl p-2 font-bold text-xl"
