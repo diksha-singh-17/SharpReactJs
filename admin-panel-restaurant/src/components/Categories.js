@@ -80,6 +80,12 @@ const Categories = () => {
     }, 1000);
   };
 
+  const deleteCategoryHandler = (id) => {
+    fetch(DATABASE_URL + `restaurant-admin/${id}.json`, {
+      method: "DELETE",
+    });
+  };
+
   return (
     <div className="container grid grid-cols-12  ">
       <div className="col-span-3 shadow-2xl flex h-full bg-slate-300 text-white font-semibold text-xl">
@@ -89,7 +95,7 @@ const Categories = () => {
       <div className="col-span-9 ">
         <Header />
         <div className="bg-slate-200">
-          <h1 className="text-3xl font-extrabold shadow-inner p-2 text-slate-800 text-center">
+          <h1 className="text-2xl font-extrabold shadow-inner p-2 text-slate-800 text-center">
             Categories
           </h1>
           {showForm && (
@@ -140,8 +146,8 @@ const Categories = () => {
                     className="bg-white rounded-lg text-xl font-semibold m-4 p-2 flex items-center flex-col"
                     key={index}
                   >
-                    <h2>{item.category}</h2>
-                    <p>{item.imageUrl}</p>
+                    <h2 className="font-serif">{item.category}</h2>
+                    <p className="font-thin">{item.imageUrl}</p>
 
                     <div>
                       <button
@@ -150,7 +156,10 @@ const Categories = () => {
                       >
                         Edit
                       </button>
-                      <button className="bg-slate-600 text-white rounded-lg p-2 m-2">
+                      <button
+                        className="bg-slate-600 text-white rounded-lg p-2 m-2"
+                        onClick={() => deleteCategoryHandler(item.id)}
+                      >
                         Delete
                       </button>
                     </div>

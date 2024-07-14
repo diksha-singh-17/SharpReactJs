@@ -96,6 +96,12 @@ const Recipes = () => {
     }, 1000);
   };
 
+  const deleteRecipeHandler = (id) => {
+    fetch(DATABASE_URL + `restaurant-recipe-admin/${id}.json`, {
+      method: "DELETE",
+    });
+  };
+
   return (
     <div className="container grid grid-cols-12  ">
       <div className="col-span-3 shadow-2xl flex h-full bg-slate-300 text-white font-semibold text-xl">
@@ -180,11 +186,11 @@ const Recipes = () => {
                     className="bg-white rounded-lg text-xl font-semibold m-4 p-2 flex items-center flex-col"
                     key={index}
                   >
-                    <h2>{item.recipeName}</h2>
-                    <p>{item.ingredients}</p>
-                    <p>{item.recipeImage}</p>
-                    <p>{item.category}</p>
-                    <p>${item.price}</p>
+                    <h2 className="font-semibold">{item.recipeName}</h2>
+                    <p className="font-extralight">{item.ingredients}</p>
+                    <p className="font-normal">{item.recipeImage}</p>
+                    <p className="font-medium">{item.category}</p>
+                    <p className="font-bold">${item.price}</p>
                     <div>
                       <button
                         className="bg-slate-600 text-white rounded-md p-2 m-2"
@@ -192,7 +198,10 @@ const Recipes = () => {
                       >
                         Edit
                       </button>
-                      <button className="bg-slate-600 text-white rounded-lg p-2 m-2">
+                      <button
+                        className="bg-slate-600 text-white rounded-lg p-2 m-2"
+                        onClick={() => deleteRecipeHandler(item.id)}
+                      >
                         Delete
                       </button>
                     </div>
