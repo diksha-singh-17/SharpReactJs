@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { DUMMY } from "../utils/constants";
 
 const MenuBar = () => {
-  const DUMMY = ["DashBoard", "Categories", "Recipes", "Orders"];
   const navigate = useNavigate();
   const handleNavigation = (item) => {
     switch (item) {

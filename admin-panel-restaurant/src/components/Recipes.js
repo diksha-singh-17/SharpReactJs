@@ -2,105 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import MenuBar from "./MenuBar";
 import Header from "./Header";
 import { DATABASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { setRecipeLength } from "../store/ItemsSlice";
+import useRecipes from "../hooks/useRecipes";
 
 const Recipes = () => {
-  const [showForm, setShowForm] = useState(false);
-  const [recipes, setRecipes] = useState([]);
-  const [id, setId] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
-  const category = useRef(null);
-  const recipeName = useRef(null);
-  const price = useRef(null);
-  const recipeImage = useRef(null);
-  const ingredients = useRef(null);
-
-  const fetchRecipeData = async () => {
-    try {
-      const response = await fetch(
-        DATABASE_URL + "restaurant-recipe-admin.json"
-      );
-      const data = await response.json();
-
-      const formattedData = Object.keys(data).map((key) => {
-        return {
-          id: key,
-          ...data[key],
-        };
-      });
-      setRecipes(formattedData);
-    } catch {
-      console.error("error");
-    }
-  };
-  useEffect(() => {
-    fetchRecipeData();
-  }, []);
-
-  const handleFormToggle = () => {
-    setShowForm(!showForm);
-    setIsEdit(false);
-  };
-  const handleRecipeFormData = async () => {
-    try {
-      if (isEdit) {
-        await fetch(DATABASE_URL + "restaurant-recipe-admin/" + id + ".json", {
-          method: "PUT",
-          body: JSON.stringify({
-            category: category?.current.value,
-            recipeName: recipeName?.current.value,
-            price: price?.current.value,
-            ingredients: ingredients?.current.value,
-            recipeImage: recipeImage?.current.value,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      } else {
-        await fetch(DATABASE_URL + "restaurant-recipe-admin.json", {
-          method: "POST",
-          body: JSON.stringify({
-            category: category?.current.value,
-            recipeName: recipeName?.current.value,
-            price: price?.current.value,
-            ingredients: ingredients?.current.value,
-            recipeImage: recipeImage?.current.value,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-      category.current.value = "";
-      recipeName.current.value = "";
-      price.current.value = "";
-      ingredients.current.value = "";
-      recipeImage.current.value = "";
-    } catch {
-      console.error("error");
-    }
-  };
-
-  const editRecipeHandler = (item) => {
-    setIsEdit(true);
-    setShowForm(true);
-    setId(item.id);
-    setTimeout(() => {
-      if (item.category && item.recipeName && item.price) {
-        category.current.value = item.category;
-        recipeName.current.value = item.recipeName;
-        price.current.value = item.price;
-        ingredients.current.value = item.ingredients;
-        recipeImage.current.value = item.recipeImage;
-      }
-    }, 1000);
-  };
-
-  const deleteRecipeHandler = (id) => {
-    fetch(DATABASE_URL + `restaurant-recipe-admin/${id}.json`, {
-      method: "DELETE",
-    });
-  };
+  const {
+    handleFormToggle,
+    handleRecipeFormData,
+    editRecipeHandler,
+    deleteRecipeHandler,
+    showForm,
+    recipes,
+    category,
+    recipeName,
+    price,
+    recipeImage,
+    ingredients,
+    isEdit,
+  } = useRecipes();
 
   return (
     <div className="container grid grid-cols-12  ">

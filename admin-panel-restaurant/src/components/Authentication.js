@@ -70,6 +70,7 @@ const Authentication = () => {
   const handleForgotPassword = () => {
     navigate("/forgot-password");
   };
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-slate-700 hover:text-slate-400 bg-gradient-to-r from-slate-500 p-4">

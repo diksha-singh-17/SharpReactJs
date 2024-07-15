@@ -6,6 +6,7 @@ import { API_KEY } from "../utils/constants";
 const Profile = () => {
   const [displayName, setDisplayName] = useState();
   const [photourl, setPhotoUrl] = useState();
+  const [error, setError] = useState();
   const name = useRef();
   const photoUrl = useRef();
   const idToken = localStorage.getItem("idTokenRestaurant");
@@ -27,12 +28,16 @@ const Profile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (isApiSubscribed) {
           setDisplayName(data?.users[0]?.displayName);
           setPhotoUrl(data?.users[0]?.photoUrl);
         }
+        throw new Error("Log-in first!!");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setError(err.message);
+      });
 
     return () => {
       isApiSubscribed = false;
@@ -47,8 +52,8 @@ const Profile = () => {
       method: "POST",
       body: JSON.stringify({
         idToken: idToken,
-        displayName: name.current.value,
-        photoUrl: photoUrl.current.value,
+        displayName: name?.current.value,
+        photoUrl: photoUrl?.current.value,
         returnSecureToken: true,
       }),
       headers: {
@@ -59,8 +64,9 @@ const Profile = () => {
       .then(() => {
         name.current.value = "";
         photoUrl.current.value = "";
+        throw new Error("Log-in first!!");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => setError(error.message));
   };
 
   return (
@@ -102,6 +108,7 @@ const Profile = () => {
                 defaultValue={photourl || ""}
                 ref={photoUrl}
               />
+              <p className="text-red-800 font-bold">{error}</p>
               <button
                 className="rounded-md p-2 text-white"
                 style={{ backgroundColor: "rgb(122, 156, 68)" }}
