@@ -1,9 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import MenuBar from "./MenuBar";
 import Header from "./Header";
-import { DATABASE_URL } from "../utils/constants";
-import { useDispatch } from "react-redux";
-import { setRecipeLength } from "../store/ItemsSlice";
 import useRecipes from "../hooks/useRecipes";
 
 const Recipes = () => {
