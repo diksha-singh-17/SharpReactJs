@@ -9,7 +9,7 @@ const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const totalQuantity = useSelector((store) => store.cart.totalQuantity);
 
-  const handleAddToCart = (item) => {
+  const handleAddToCart = () => {
     setIsCartOpen(true);
   };
   const handleCloseCart = () => {

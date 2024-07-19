@@ -19,7 +19,6 @@ const Dashboard = () => {
     const formattedData = Object.keys(data).map((key) => {
       return { ...data[key], id: key };
     });
-    console.log(formattedData);
     setCategoryItems(formattedData);
   };
 
