@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
-
+import MeetupList from "@/components/meetups/MeetupList";
+import NewMeetupForm from "@/components/meetups/NewMeetupForm";
 const page = () => {
   const details = [
     { id: 1, name: "Yash", role: "Senior Developer" },
@@ -18,6 +19,7 @@ const page = () => {
           </li>
         ))}
       </ul>
+      <NewMeetupForm />
     </div>
   );
 };
