@@ -29,16 +29,26 @@ const DUMMY = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
   },
 ];
-const getdata = async () => {
-  const response = await fetch("https://jsonplaceholder.typicode.com/todos");
-  const data = await response.json();
-  return data;
+
+const getMeetupHandler = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/posts");
+    const data = await response.json();
+    console.log(data, "Fetched Data");
+    if (data.success) {
+      return data.result;
+    }
+    throw new Error("Data fetch was not successful");
+  } catch (error) {
+    console.error("Error fetching meetups:", error);
+  }
 };
 export default async function Home(props) {
-  const meetups = await getdata();
+  const meetups = await getMeetupHandler();
+  console.log(meetups, "meetupsssssssss");
   return (
     <Layout>
-      <MeetupList meetups={DUMMY} />
+      <MeetupList meetups={meetups} />
     </Layout>
   );
 }
