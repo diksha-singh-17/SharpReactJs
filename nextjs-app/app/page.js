@@ -20,6 +20,14 @@ const DUMMY = [
     address:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
   },
+  {
+    id: 3,
+    title: "Monument3",
+    image:
+      "https://assets.zeezest.com/blogs/PROD_Banner%20monuments_1687722103189.png",
+    address:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
+  },
 ];
 const getdata = async () => {
   const response = await fetch("https://jsonplaceholder.typicode.com/todos");
