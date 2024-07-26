@@ -1,0 +1,21 @@
+.inputToDo{
+  padding:6px;
+  margin:4px;
+  border-radius: 30px ;
+}
+
+.addButton{
+  background-color: darkslategrey;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 30px ;
+  border-style: double;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  /* background-color:white; */
+  height:fit-content;
+  box-shadow: inset;
+}

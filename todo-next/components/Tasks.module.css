@@ -1,0 +1,28 @@
+.headingTask{
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+
+}
+
+.buttons{
+  background-color:rgb(4, 45, 45);
+  border-radius: 20px;
+  padding: 8px;
+  margin: 4px;
+}
+.lists{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin:10px;
+  padding:6px;
+  border-bottom: 2px solid white;
+}
+.container{
+  background-color:darkslategray;
+  margin-top: 6rem;
+  padding:6px;
+  
+}
