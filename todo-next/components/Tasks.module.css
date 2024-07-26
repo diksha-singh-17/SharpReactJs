@@ -5,7 +5,10 @@
   text-align: center;
 
 }
-
+.taskName{
+  display: flex;
+  align-items: center;
+}
 .buttons{
   background-color:rgb(4, 45, 45);
   border-radius: 20px;
