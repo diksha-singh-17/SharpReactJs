@@ -11,7 +11,10 @@ const fetchTodoHandler = async () => {
     }
 
     const data = await response.json();
-    return data.result;
+    const filterIncompletedTodo = data?.result?.filter(
+      (item) => item.done === false
+    );
+    return filterIncompletedTodo;
   } catch (error) {
     console.error("Error:", error);
   }

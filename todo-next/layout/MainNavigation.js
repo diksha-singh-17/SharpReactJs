@@ -12,6 +12,9 @@ function MainNavigation() {
           <li>
             <Link href="/">All ToDos</Link>
           </li>
+          <li>
+            <Link href="/completed">Completed ToDos</Link>
+          </li>
         </ul>
       </nav>
     </header>
