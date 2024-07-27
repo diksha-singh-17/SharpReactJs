@@ -41,13 +41,33 @@ const statusUpdateHandler = async (item) => {
   }
 };
 
+const deleteTodoHandler = async (item) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/posts/${item._id}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return data.result;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 export default async function Home() {
   const fetchedData = await fetchTodoHandler();
   const statusUpdate = await statusUpdateHandler();
   return (
     <>
       <Layout>
-        <Tasks todoData={fetchedData} onStatusChange={statusUpdateHandler} />
+        <Tasks
+          todoData={fetchedData}
+          onStatusChange={statusUpdateHandler}
+          onDeleteTodo={deleteTodoHandler}
+        />
       </Layout>
     </>
   );

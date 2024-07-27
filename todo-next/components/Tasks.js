@@ -6,6 +6,10 @@ const Tasks = (props) => {
     props.onStatusChange(item);
   };
 
+  const deleteTodoHandler = (item) => {
+    props.onDeleteTodo(item);
+  };
+
   return (
     <div className={classes.container}>
       <div>
@@ -25,7 +29,12 @@ const Tasks = (props) => {
                   >
                     Complete
                   </button>
-                  <button className={classes.buttons}>Delete</button>
+                  <button
+                    className={classes.buttons}
+                    onClick={() => deleteTodoHandler(item)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </li>
             );

@@ -13,6 +13,7 @@ function TodoForm(props) {
       done: false,
     };
     props.onAddTodo(todoData);
+    todo.current.value = "";
   };
   return (
     <div className={classes.container}>
