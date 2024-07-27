@@ -10,7 +10,7 @@ function MainNavigation() {
             <Link href="/events">Add To-Do</Link>
           </li>
           <li>
-            <Link href="/completed">Completed</Link>
+            <Link href="/">All ToDos</Link>
           </li>
         </ul>
       </nav>

@@ -1,6 +1,11 @@
+"use client";
 import React from "react";
 import classes from "./Tasks.module.css";
 const Tasks = (props) => {
+  const changeStatusHandler = (item) => {
+    props.onStatusChange(item);
+  };
+
   return (
     <div className={classes.container}>
       <div>
@@ -12,8 +17,14 @@ const Tasks = (props) => {
             return (
               <li className={classes.lists} key={item._id}>
                 <h2 className={classes.taskName}>{item.todo}</h2>
+                <span className={classes.taskName}>{item.done && "✅"}</span>
                 <div>
-                  <button className={classes.buttons}>Complete</button>
+                  <button
+                    className={classes.buttons}
+                    onClick={() => changeStatusHandler(item)}
+                  >
+                    Complete
+                  </button>
                   <button className={classes.buttons}>Delete</button>
                 </div>
               </li>
