@@ -18,7 +18,6 @@ async function fetchTodoHandler(todoData) {
     }
 
     const data = await response.json();
-    console.log(data, "data from post");
   } catch (error) {
     console.error("Error:", error);
   }
