@@ -12,7 +12,7 @@ async function addMeetupHandler(meetupData) {
     });
     const data = await response.json();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
