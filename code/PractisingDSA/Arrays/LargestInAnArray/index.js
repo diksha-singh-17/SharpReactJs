@@ -3,9 +3,9 @@ function find_maximum(arr) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] > largest) largest = arr[i];
   }
-  return largest;
+  console.log(largest);
 }
 
-let arr = [12, 7, 31, 18, 25];
+let arr = [12, 7, 31, 18, 25, 57];
 
-console.log(find_maximum(arr));
+find_maximum(arr);
