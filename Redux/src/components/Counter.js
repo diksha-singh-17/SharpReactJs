@@ -32,3 +32,6 @@ const Counter = () => {
 };
 
 export default Counter;
+
+// const currentState = store.getState();
+// console.log(currentState);

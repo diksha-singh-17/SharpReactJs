@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import "./Form.css";
 const Form = () => {
   const [formEntries, setFormEntries] = useState([]);
@@ -16,7 +16,7 @@ const Form = () => {
   const [previousOption, setPreviousOption] = useState("");
   const [filterValue, setFilterValue] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = useCallback((e) => {
     e.preventDefault();
     setFormEntries([...formEntries, formData]);
     console.log(formData, formEntries);
@@ -27,12 +27,12 @@ const Form = () => {
       tel: "",
       selectValue: "",
     });
-  };
+  });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
+  }, []);
 
   const handleEditClick = () => {
     setFormData({
