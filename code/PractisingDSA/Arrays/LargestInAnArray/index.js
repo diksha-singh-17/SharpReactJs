@@ -1,3 +1,5 @@
+// O(N)-Time Complexity
+//O(1)-Space Complexity
 function find_maximum(arr) {
   let largest = arr[0];
   for (let i = 0; i < arr.length; i++) {
