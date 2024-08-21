@@ -45,6 +45,7 @@ function FirstAndLastOcc(nums, target) {
   }
   let secOcc = SecOcc(nums, target, n);
   let result = secOcc - firstOcc + 1;
+  // console.log(result)
   return { result };
 }
 
