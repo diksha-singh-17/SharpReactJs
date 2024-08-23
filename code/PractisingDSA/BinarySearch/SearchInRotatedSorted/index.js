@@ -23,6 +23,7 @@ function Search(nums, k) {
   }
   return -1;
 }
+
 let arr = [12, 15, 18, 2, 4],
   k = 15;
 // output=3
