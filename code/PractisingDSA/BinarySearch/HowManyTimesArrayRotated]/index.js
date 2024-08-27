@@ -5,7 +5,12 @@ function Rotated(nums, n) {
   let index = -1;
   while (low <= high) {
     let mid = low + Math.floor((high - low) / 2);
-
+    if (nums[low] <= nums[high]) {
+      if (nums[low] < ans) {
+        ans = nums[low];
+        index = low;
+      }
+    }
     if (nums[low] <= nums[mid]) {
       if (nums[low] < ans) {
         ans = nums[low];
@@ -26,6 +31,6 @@ function Rotated(nums, n) {
 }
 let arr = [3, 4, 5, 8, 23, 45, 1, 2];
 let n = arr.length;
-// Output: 3
+// Output: 6
 const res = Rotated(arr, n);
 console.log(res);

@@ -19,6 +19,6 @@ let arr = [1, 3, 5, 6];
 
 let target = 2;
 
-// Output : 2
+// Output : 1
 const res = insertPosition(arr, target);
 console.log(res);

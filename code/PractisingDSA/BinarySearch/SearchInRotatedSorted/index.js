@@ -26,6 +26,6 @@ function Search(nums, k) {
 
 let arr = [12, 15, 18, 2, 4],
   k = 15;
-// output=3
+// output=1
 const res = Search(arr, k);
 console.log(res);
