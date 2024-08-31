@@ -24,7 +24,7 @@ function PeakElement(arr, n) {
 
 let arr = [1, 8, 1, 5, 3];
 let n = arr.length;
-// output-3
+// output=3 //1 <= 5 >= 3
 // console.log(n);
 let res = PeakElement(arr, n);
 console.log(res);

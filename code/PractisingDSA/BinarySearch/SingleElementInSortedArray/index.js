@@ -22,7 +22,8 @@ function SingleElementInSortedArray(nums, n) {
   }
   return -1;
 }
-
+// (even,odd)=>element will be in right half =>emiminate left
+// (odd,even)=>element will be in left half =>eliminate right
 let arr = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 7, 9, 9];
 // output=7
 let n = arr.length;
