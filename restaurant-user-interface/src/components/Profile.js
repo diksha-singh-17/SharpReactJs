@@ -10,6 +10,7 @@ const Profile = () => {
   const name = useRef();
   const photoUrl = useRef();
   const idToken = localStorage.getItem("idTokenRestaurant");
+  // let isApiSubscribed;
 
   useEffect(() => {
     let url =
@@ -28,12 +29,13 @@ const Profile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (isApiSubscribed) {
+        if (data.error) {
+          throw new Error("Log-in first!!");
+        }
+        if (isApiSubscribed && data.users && data.users.length > 0) {
           setDisplayName(data?.users[0]?.displayName);
           setPhotoUrl(data?.users[0]?.photoUrl);
         }
-        throw new Error("Log-in first!!");
       })
       .catch((err) => {
         setError(err.message);
@@ -42,12 +44,13 @@ const Profile = () => {
     return () => {
       isApiSubscribed = false;
     };
-  }, []);
+  }, [idToken]);
 
   const updateProfileHandler = () => {
     let url =
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
       API_KEY;
+
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -61,12 +64,21 @@ const Profile = () => {
       },
     })
       .then((res) => res.json())
-      .then(() => {
+      .then((data) => {
+        if (data.error) {
+          throw new Error(data.error.message || "Log-in first!!");
+        }
+        // Clear input fields if the update is successful
         name.current.value = "";
         photoUrl.current.value = "";
-        throw new Error("Log-in first!!");
+        // Optionally, update the state with the new values
+        setDisplayName(data.displayName);
+        setPhotoUrl(data.photoUrl);
       })
-      .catch((error) => setError(error.message));
+      .catch((error) => {
+        // Set error message
+        setError(error.message);
+      });
   };
 
   return (
