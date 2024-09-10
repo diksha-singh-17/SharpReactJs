@@ -10,6 +10,6 @@ var runningSum = function (nums) {
   return nums;
 };
 
-let nums = [3, 1, 2, 10, 1];
+let nums = [3, 1, 2, 10, 1, 4, 6, 7];
 const result = runningSum(nums);
 console.log(result);
