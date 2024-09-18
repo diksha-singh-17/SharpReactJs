@@ -78,3 +78,57 @@ function demo() {
 (() => {
   console.log("IIFE");
 })();
+
+// Callback
+
+function parent(callback) {
+  setTimeout(() => {
+    let data = "testing callback";
+
+    callback(data);
+  }, 3000);
+}
+function child(data) {
+  console.log("Child", data);
+}
+parent(child);
+
+// Promises
+
+const newPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    let data = "testing promise";
+    if (data) {
+      reject(data);
+    }
+  }, 5000);
+});
+
+newPromise
+  .then((data) => console.log(data))
+  .catch((error) => console.log("error", error));
+
+// async/await
+
+const ex = async () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let data = true;
+      if (data) {
+        resolve("success");
+      } else {
+        reject("error");
+      }
+    }, 2000);
+  });
+};
+
+async function getData() {
+  try {
+    let res = await ex();
+    console.log(res);
+  } catch (err) {
+    console.log(err);
+  }
+}
+getData();
