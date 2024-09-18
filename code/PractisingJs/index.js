@@ -110,7 +110,7 @@ newPromise
 
 // async/await
 
-const ex = async () => {
+const example = async () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       let data = true;
@@ -125,7 +125,7 @@ const ex = async () => {
 
 async function getData() {
   try {
-    let res = await ex();
+    let res = await example();
     console.log(res);
   } catch (err) {
     console.log(err);
