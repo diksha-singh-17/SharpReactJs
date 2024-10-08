@@ -132,3 +132,73 @@ async function getData() {
   }
 }
 getData();
+
+function callback1(callback) {
+  let data = "new dta";
+  setTimeout(() => {
+    callback(data);
+  }, 1000);
+}
+
+function callback2(data) {
+  console.log(data);
+}
+callback1(callback2);
+
+const promise1 = async () => {
+  return new Promise((resolve, reject) => {
+    let res = true;
+    if (res) {
+      resolve("done data");
+    } else {
+      reject("error");
+    }
+  });
+};
+
+const newPromise12 = async () => {
+  try {
+    let res = await promise1();
+    console.log(res);
+  } catch (err) {
+    console.log(err);
+  }
+};
+newPromise12();
+
+const promise3 = new Promise((res, rej) => {
+  let data = false;
+  if (data) {
+    res("done");
+  } else {
+    rej("error");
+  }
+});
+promise3
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+// currying
+function curry(a) {
+  return function (b) {
+    console.log("currying:", a + b);
+  };
+}
+curry(2)(3);
+
+// closures
+
+function print() {
+  let count = 0;
+  return function () {
+    console.log("closures", count++);
+  };
+}
+let print12 = print();
+print12();
+print12();
+print12();
