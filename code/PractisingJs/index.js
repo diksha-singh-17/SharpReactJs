@@ -203,7 +203,7 @@
 // print12();
 // print12();
 
-// // Call, apply and bind --> to access the property of object using function, it temporary links the function with that object
+//  Call, apply and bind --> to access the property of object using function, it temporary links the function with that object
 
 // const obj = { num: 4 };
 
@@ -231,15 +231,16 @@ const fun1 = new Promise((res, rej) => {
   console.log("fun1");
   res();
 });
-const fun2 = () =>
-  new Promise((res, rej) => {
+const fun2 = () => {
+  return new Promise((res, rej) => {
     console.log("fun2");
     res("hello");
   });
+};
 const fun3 = () => {
   return new Promise((res, rej) => {
     console.log("fun3");
-    res();
+    rej("failed");
   });
 };
 
@@ -252,7 +253,8 @@ fun1
   })
   .then(() => {
     return fun3();
-  });
+  })
+  .catch((err) => console.log(err));
 
 // const fun1 = (callback) => {
 //   console.log("fun1");
@@ -268,3 +270,214 @@ fun1
 
 // fun1(() => fun2(() => fun3()));
 // fun1(() => fun2(fun3));
+
+const posts = [{ title: "POST1" }];
+//Do not touch this function
+function create2ndPost() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      posts.push({ title: "POST2" });
+      resolve({ title: "POST2" });
+    }, 2000);
+  });
+}
+//Do not touch this function
+function create3rPost() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      posts.push({ title: "POST3" });
+      resolve({ title: "POST3" });
+    }, 3000);
+    console.log("pppp", posts);
+  });
+}
+
+function updateLastUserActivityTime() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(new Date().getTime());
+    }, 1000);
+  });
+}
+
+//Do not touch this function
+function deletePost() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (posts.length > 0) {
+        const poppedElement = posts.pop();
+        resolve(poppedElement);
+      } else {
+        reject("ERROR: ARRAY IS EMPTY");
+      }
+    }, 1000);
+  });
+}
+// Promise.all([create2ndPost(), create3rPost(), updateLastUserActivityTime()])
+//   .then((val) => console.log(val))
+//   .then(deletePost)
+//   .then((val) => console.log(val))
+//   .then(deletePost)
+//   .then((val) => console.log(val))
+//   .then(deletePost)
+//   .then((val) => console.log(val))
+//   .catch((err) => console.log(err));
+
+async function demo() {
+  let p1 = await create2ndPost();
+  let p2 = await create3rPost();
+  let p4 = await updateLastUserActivityTime();
+  console.log(posts);
+  let p3 = await deletePost();
+
+  console.log(p1, p2, p3, p4);
+}
+demo();
+// //Modify the lines below and use .then and .catch smartly to get the correct output.
+// create2ndPost()
+//   .then(() => {
+//     return deletePost();
+//   })
+//   .then((msg) => {
+//     console.log(msg.title);
+//   })
+//   .then(create3rPost)
+//   .then(() => {
+//     return deletePost();
+//   })
+//   .then((msg1) => {
+//     console.log(msg1.title);
+//   })
+//   .then(() => {
+//     return deletePost();
+//   })
+//   .then((msg3) => {
+//     console.log(msg3.title);
+//   })
+//   .then(() => {
+//     return deletePost();
+//   })
+//   .catch((err) => console.log(err));
+
+// const posts = [{ title: "Post One" }, { title: "Post Two" }];
+
+// //Do not touch this function below
+// function printPost() {
+//   posts.forEach((post) => {
+//     console.log(post.title);
+//   });
+// }
+
+// //Do not touch this function below
+// const create3rdPost = () => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       posts.push({ title: "post Three" });
+//       // console.log("three")
+//       resolve("three");
+//     }, 3000);
+//   });
+// };
+
+//Do not touch this function below
+// function create4thPost() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       posts.push({ title: "post Four" });
+// console.log("four")
+//       resolve("four");
+//     }, 2000);
+//   });
+// }
+// let create5thPost = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     posts.push({ title: "post Fifth" });
+// console.log("four")
+//     resolve("fifth");
+//   }, 1000);
+// });
+// }
+
+// create3rdPost()
+//   .then(() => create4thPost())
+//   .then(create5thPost)
+//   .then(() => printPost());
+// post1post2post5post3post4
+// Correct the lines below smartly such that post three gets printed before post four
+// printPost();
+
+// create3rdPost()
+//   .then((msg) => console.log(msg))
+//   .then(printPost)
+
+//   .then(() => {
+//     return create4thPost();
+//   })
+//   .then((msg) => console.log(msg))
+
+//   .then(printPost);
+
+// const blogs = [];
+
+// //Do not touch these functions below at all
+// function create1stBlog() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       blogs.push({ title: "BLOG1" });
+//       resolve();
+//     }, 3000);
+//   });
+// }
+
+// //Do not touch these functions below at all
+// function create2ndBlog() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       blogs.push({ title: "BLOG2" });
+//       resolve();
+//     }, 2000);
+//   });
+// }
+
+// function deleteBlog() {
+//   //complete this function such that it removes the last element from the blog Array and resolves the deleted blog in 1 second timeout
+//   //If no blog present , it breaks the promise with ERROR (reject) in 1 second timeout
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (blogs.length > 0) {
+//         const deletedBlog = blogs.pop();
+//         resolve(deletedBlog);
+//       } else {
+//         reject("ERROR");
+//       }
+//     }, 1000);
+//   });
+// }
+
+//Call the function in the right way so that we can get the desired output
+// create1stBlog()
+//   .then(create2ndBlog)
+//   .then(() => {
+//     return deleteBlog();
+//   })
+//   .then((msg) => console.log(msg.title))
+
+//   .then(deleteBlog)
+//   .then((msg) => console.log(msg.title))
+//   .then(deleteBlog)
+//   .catch((err) => console.log(err));
+
+// Promise.all([create2ndBlog(), create1stBlog()])
+//   .then(() => {
+//     return deleteBlog();
+//   })
+//   .then((val) => {
+//     console.log(val.title);
+//     return deleteBlog();
+//   })
+//   .then((val) => {
+//     console.log(val.title);
+//     return deleteBlog();
+//   })
+
+//   .catch((val) => console.log(val));
